@@ -48,9 +48,9 @@ public class AppConfig {
 	    public DataSource dataSource() {
 	    	DriverManagerDataSource dataSource = new DriverManagerDataSource();
 	        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-	        dataSource.setUrl(env.getProperty("jdbc.url"));
-	        dataSource.setUsername(env.getProperty("jdbc.username"));
-	        dataSource.setPassword(env.getProperty("jdbc.password"));
+	        dataSource.setUrl(env.getProperty("hr.url"));
+	        dataSource.setUsername(env.getProperty("hr.username"));
+	        dataSource.setPassword(env.getProperty("hr.password"));
 	        return dataSource;
 	    }
 
