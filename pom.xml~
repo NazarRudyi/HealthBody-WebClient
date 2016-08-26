@@ -41,6 +41,8 @@
 		<!--  - - - - - JPA - - - - - -->
 		<postgresql.connector.version>9.4-1200-jdbc41</postgresql.connector.version>
 	    <hibernate.version>5.0.0.Final</hibernate.version>
+	    <!--  - - - - - Newrelic.agent - - - - - -->
+	    <newrelic.agent.version>3.18.0</newrelic.agent.version>
 		<!-- - - - - - Variables - - - - - -->
 		<my.text>Hello World!</my.text>
 	</properties>
@@ -182,6 +184,12 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
+		<dependency>
+	      <groupId>com.newrelic.agent.java</groupId>
+	      <artifactId>newrelic-agent</artifactId>
+	      <version>${newrelic.agent.version}</version>
+	      <scope>provided</scope>
+	    </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -189,28 +197,31 @@
 		        <groupId>com.heroku.sdk</groupId>
 		        <artifactId>heroku-maven-plugin</artifactId>
 		        <version>1.1.1</version>
+		        <configuration>
+		          <includes>
+		            <include>target/dependency/newrelic-agent.jar</include>
+		          </includes>
+		        </configuration>
 		     </plugin>
 		     <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-dependency-plugin</artifactId>
-	            <version>2.3</version>
-	            <executions>
-	                <execution>
-	                    <phase>package</phase>
-	                    <goals><goal>copy</goal></goals>
-	                    <configuration>
-	                        <artifactItems>
-	                            <artifactItem>
-	                                <groupId>com.github.jsimone</groupId>
-	                                <artifactId>webapp-runner</artifactId>
-	                                <version>8.0.30.2</version>
-	                                <destFileName>webapp-runner.jar</destFileName>
-	                            </artifactItem>
-	                        </artifactItems>
-	                    </configuration>
-	                </execution>
-	            </executions>
-	        </plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-dependency-plugin</artifactId>
+		        <version>${maven.resources.plugin.version}</version>
+		        <executions>
+		          <execution>
+		            <id>copy-new-relic</id>
+		            <phase>package</phase>
+		            <goals>
+		              <goal>copy-dependencies</goal>
+		            </goals>
+		            <configuration>
+		              <includeGroupIds>com.newrelic.agent.java</includeGroupIds>
+		              <includeArtifactIds>newrelic-agent</includeArtifactIds>
+		              <stripVersion>true</stripVersion>
+		            </configuration>
+		          </execution>
+		        </executions>
+		      </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -328,27 +339,6 @@
 						<contextPath>/${project.name}</contextPath>
 					    </webAppConfig>
 					</configuration>
-				    </plugin>
-					<plugin>
-				      <groupId>org.apache.maven.plugins</groupId>
-				      <artifactId>maven-dependency-plugin</artifactId>
-				      <version>2.3</version>
-				      <executions>
-					<execution>
-					  <phase>package</phase>
-					  <goals><goal>copy</goal></goals>
-					  <configuration>
-					    <artifactItems>
-					      <artifactItem>
-						<groupId>org.eclipse.jetty</groupId>
-						<artifactId>jetty-runner</artifactId>
-						<version>9.2.7.v20150116</version>
-						<destFileName>jetty-runner.jar</destFileName>
-					      </artifactItem>
-					    </artifactItems>
-					  </configuration>
-					</execution>
-				      </executions>
 				    </plugin>
 
 				</plugins>
