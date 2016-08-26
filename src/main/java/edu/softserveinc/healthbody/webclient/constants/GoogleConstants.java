@@ -5,7 +5,7 @@ public class GoogleConstants {
 
     public static final String CLIENT_ID = "48524677967-juniqolaio06efre3m3q7774097q50u8.apps.googleusercontent.com";
     public static final String CLIENT_SECRET = "KBpMscuWOZc43u-4KKpwbE5T";
-    public static final String REDIRECT_URI = "http://localhost:8080/HealthBody-WebClient/GoogleAuthServ";
+    public static final String REDIRECT_URI = "http://healthbody-cliendside.herokuapp.com/GoogleAuthServ";
     public static final String GRANT_TYPE = "authorization_code";
     public static final String TOKEN_URL = "https://accounts.google.com/o/oauth2/token";
     public static final String USERINFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
