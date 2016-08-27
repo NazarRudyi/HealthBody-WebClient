@@ -240,31 +240,31 @@
 					<warName>HealthBody-WebClient</warName>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxws-maven-plugin</artifactId>
 				<version>2.4.1</version>
-				<!-- <executions> <execution> <id>wsimport-from-jdk</id> <goals> <goal>wsimport</goal> 
-					</goals> </execution> </executions> -->
+				<executions> <execution> <id>wsimport-from-jdk</id> <goals> <goal>wsimport</goal> 
+					</goals> </execution> </executions>
 				<configuration>
 					<vmArgs>
 						<vmArg>-Djavax.xml.accessExternalDTD=all</vmArg>
 						<vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
 					</vmArgs>
-					<!-- using wsdl from an url -->
+					using wsdl from an url
 					<wsdlUrls>
 						<wsdlUrl>
 							http://localhost:8080/HealthBody-WebService/HealthBodyService?wsdl
 						</wsdlUrl>
 					</wsdlUrls>
-					<!-- Keep generated files -->
+					Keep generated files
 					<keep>true</keep>
-					<!-- Package name -->
+					Package name
 					<packageName>edu.softserveinc.healthbody.webclient.healthbody.webservice</packageName>
-					<!-- generated source files destination -->
+					generated source files destination
 					<sourceDestDir>src/main/java</sourceDestDir>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<plugin>
 		            <artifactId>maven-clean-plugin</artifactId>
 		            <version>2.5</version>
