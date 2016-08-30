@@ -254,7 +254,7 @@
 					<!-- using wsdl from an url -->
 					<wsdlUrls>
 						<wsdlUrl>
-							http://ws-healthbody.rhcloud.com/HealthBody-WebService?wsdl
+							http://ws-healthbody.rhcloud.com/HealthBody-WebService/HealthBodyService?wsdl
 						</wsdlUrl>
 					</wsdlUrls>
 					<!--  Keep generated files-->
