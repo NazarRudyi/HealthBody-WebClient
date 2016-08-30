@@ -35,6 +35,7 @@
 				<li><a href="userlist.html">Users</a></li>
 				<li><a href="listGroups.html">Groups</a></li>
 				<li><a href="listCompetitions.html">Competitions</a></li>
+				<li><a href="pieChart.html">Statistics</a></li>
 			</ul>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
@@ -72,9 +73,9 @@
 					<td>${comp.startDate}</td>
 					<td>${comp.finishDate}</td>
 					<td>
-						<a href="check_take_part.html?nameCompetition=${comp.name}&userLogin=${login}">
+						<a href="check_take_part.html?idCompetition=${comp.idCompetition}&userLogin=${login}">
 							<c:forEach items="${getAllCompTakePart}" var="t">
-							    <c:if test="${t.name == comp.name}"> 
+							    <c:if test="${t.idCompetition == comp.idCompetition}"> 
 							    	<c:set var="check" value="true"/>							    													
 							    </c:if>    
 				    		</c:forEach>

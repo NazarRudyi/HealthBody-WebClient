@@ -46,7 +46,6 @@ public class CompetitionREST implements IControllerREST {
 		return login;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public URL createRESTRequest() throws IOException {
 		URL url;

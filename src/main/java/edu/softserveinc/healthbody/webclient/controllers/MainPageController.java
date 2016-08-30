@@ -36,6 +36,7 @@ public class MainPageController {
 			@RequestParam(value = "partNumber", required = false) Integer partNumber, HttpServletRequest request) {
 		try {		
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		
 		int n = service.getAllActiveCompetitions(1, Integer.MAX_VALUE).size();
 		int lastPartNumber = (int) Math.ceil(n * 1.0 / COMPETITIONS_PER_PAGE);
 		if (partNumber == null || partNumber <= 0)
@@ -62,6 +63,7 @@ public class MainPageController {
 			log.info("Get current weather for " + defaultCity + " in JSON format");
 			weather = weatherService.currentWeatherByCityName(defaultCity);
 			log.info("Parsing JSON");
+			try {
 			json = parser.parse(weather.getRawResponse()).getAsJsonObject();
 			log.info(json.get("cod").getAsString());
 			if (json.get("cod").getAsString().equals("200")) {
@@ -79,6 +81,9 @@ public class MainPageController {
 				model.addAttribute("wind", wind.get("speed").getAsString());
 				return "main";
 			}
+			} catch (Exception e) {
+				log.error("Weather exception", e);
+			}
 		} catch (JSONException e) {
 			log.error("JSONException", e);
 		} catch (IOException e1) {
@@ -86,38 +91,37 @@ public class MainPageController {
 		}
 		return "main";
 	}
-	
+
 	@RequestMapping(value = "/check_take_part.html", method = RequestMethod.GET)
 	public String checkCompetition(Model model, @Autowired HealthBodyServiceImplService healthBody,
-			String nameCompetition) {
+			String idCompetition) {
 		String login = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		boolean test = false;
 		for (CompetitionDTO competition : service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE, login)) {
-			if (competition.getName().equals(nameCompetition)) {
+			if (competition.getIdCompetition().equals(idCompetition)) {
 				test = true;
 			}
 		}
 		model.addAttribute("user", service.getUserByLogin(login));
-		model.addAttribute("getCompetition", service.getCompetitionViewByName(nameCompetition));
+		model.addAttribute("getCompetition", service.getCompetitionViewById(idCompetition));
 		if (test) {
 			return "getOutOfCompetition";
 		} else {
 			return "joinCompetition";
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/getOutOfCompetition.html", method = RequestMethod.GET)
 	public String getOutCompetition(Model model, @Autowired HealthBodyServiceImplService healthBody,
-			String nameCompetition) {
+			String idCompetition) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
-		service.removeUserFromCompetition(nameCompetition, userLogin);
+		service.removeUserFromCompetition(idCompetition, userLogin);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
-		model.addAttribute("usercompetition", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));		
+		model.addAttribute("usercompetition", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "redirect:main.html";
-		
+
 	}
 
 }

@@ -33,7 +33,6 @@ public class GroupREST implements IControllerREST{
 
 
 
-	@SuppressWarnings("null")
 	@Override
 	public URL createRESTRequest() throws IOException {
 		URL url;

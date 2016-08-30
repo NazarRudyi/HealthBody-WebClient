@@ -36,6 +36,7 @@
 				<li><a href="userlist.html">Users</a></li>
 				<li><a href="listGroups.html">Groups</a></li>
 				<li><a href="listCompetitions.html">Competitions</a></li>
+				<li><a href="pieChart.html">Statistics</a></li>
 			</ul>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
@@ -94,6 +95,10 @@
 									<tr>
 										<td>Health :</td>
 										<td>${user.health}</td>
+									</tr>
+									<tr>
+										<td>All steps :</td>
+										<td>${user.score}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -154,7 +159,7 @@
 									<tr>
 										<c:forEach items="${usercompetitions}" var="p">
 											<td><a
-												href="competition.html?nameCompetition=${p.name}&userLogin=${user.login}" style="color: black">${p.name}</a></td>
+												href="competition.html?idCompetition=${p.idCompetition}&userLogin=${user.login}" style="color: black">${p.name}</a></td>
 
 										</c:forEach>
 									</tr>

@@ -27,35 +27,24 @@ public class HttpURLConnectionREST {
 		return instance;
 	}
 
-	public void sendGet(IControllerREST controllerREST) {
-		HttpURLConnection connection = null;
-		BufferedReader br = null;
-		try{
-			URL url = controllerREST.createRESTRequest();
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Accept", "application/json");
-			if (connection.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + connection.getResponseCode());
-			}
-			br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
-			StringBuilder sb = new StringBuilder();
-			String output;
-			log.info("Output REST for REST method - " + controllerREST.getClass().getName() + " \n");
-			while ((output = br.readLine()) != null) {
-				sb.append(output);
-			}
-			log.info(sb.toString());			
-		}catch (IOException  e) {
-			log.error("Problem with using HttpURLConnection!");
-		} finally{
-			try {
-				br.close();
-			} catch (IOException e) {
-				log.error("Error with closing BufferedReader!");
-			}
-			connection.disconnect();			
+	public void sendGet(IControllerREST controllerREST) throws IOException {
+		URL url = controllerREST.createRESTRequest();
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Accept", "application/json");
+		if (connection.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + connection.getResponseCode());
 		}
+		BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+		StringBuilder sb = new StringBuilder();
+		String output;
+		log.info("Output REST for REST method - " + controllerREST.getClass().getName() + " \n");
+		while ((output = br.readLine()) != null) {
+			sb.append(output);
+		}
+		log.info(sb.toString());
+		br.close();
+		connection.disconnect();
 	}
 
 }
