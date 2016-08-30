@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
-import edu.softserveinc.healthbody.webclient.wrapperD.URLFormatter;
-import edu.softserveinc.healthbody.webclient.wrapperD.UserDTORest;
+//import edu.softserveinc.healthbody.webclient.wrapperD.URLFormatter;
+//import edu.softserveinc.healthbody.webclient.wrapperD.UserDTORest;
 
 @Controller
 @RequestMapping(value = "/editUser.html")
