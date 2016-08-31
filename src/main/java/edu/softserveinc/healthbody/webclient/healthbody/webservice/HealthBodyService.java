@@ -433,6 +433,18 @@ public interface HealthBodyService {
     /**
      * 
      * @param arg0
+     */
+    @WebMethod
+    @RequestWrapper(localName = "updateUserCompetition", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.UpdateUserCompetition")
+    @ResponseWrapper(localName = "updateUserCompetitionResponse", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.UpdateUserCompetitionResponse")
+    @Action(input = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/updateUserCompetitionRequest", output = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/updateUserCompetitionResponse")
+    public void updateUserCompetition(
+        @WebParam(name = "arg0", targetNamespace = "")
+        UserCompetitionsDTO arg0);
+
+    /**
+     * 
+     * @param arg0
      * @return
      *     returns edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO
      */
