@@ -34,9 +34,7 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodySer
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
 import edu.softserveinc.healthbody.webclient.models.ExeptionResponse;
-import edu.softserveinc.healthbody.webclient.utils.CustomDateFormater;
 import edu.softserveinc.healthbody.webclient.utils.EmailSender;
-import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @WebServlet("/GoogleAuthServ")
@@ -56,7 +54,6 @@ public class GoogleAuthServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		OutputStreamWriter writer = null;
 		BufferedReader reader = null;
-		Long currentTime = System.currentTimeMillis();
 		HealthBodyService service = new HealthBodyServiceImplService().getHealthBodyServiceImplPort();
 		// get code
 		String code = request.getParameter("code");

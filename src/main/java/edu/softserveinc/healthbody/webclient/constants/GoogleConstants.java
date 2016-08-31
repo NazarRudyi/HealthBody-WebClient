@@ -14,6 +14,6 @@ public class GoogleConstants {
     public static final String DEFAULT_USER_DISABLED = "false";
     public static final String GREATING_NOT_REGISTRED = ", wellcome! You've singed up HealthBody!";
     public static final String GREATING_ALREADY_REGISTRED = ", wellcome HealthBody!";
-    public static final String SUCSESFULL_REGISTRATION_EMALE = " You just have been logged in <a href=http://healthbody-cliendside.herokuapp.com/userCabinet.html>Health Body Service</a>";
+    public static final String SUCSESFULL_REGISTRATION_EMALE = " You just have been registered  in  <a href=http://healthbody-cliendside.herokuapp.com/userCabinet.html>HealthBody </a>";
     
 }
