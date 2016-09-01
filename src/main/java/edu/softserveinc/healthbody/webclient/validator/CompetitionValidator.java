@@ -1,6 +1,8 @@
 package edu.softserveinc.healthbody.webclient.validator;
 
 import java.sql.Date;
+
+import org.apache.commons.validator.routines.DateValidator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -30,12 +32,16 @@ public class CompetitionValidator implements Validator {
 			errors.rejectValue(ValidatorConstants.NAME_FIELD, ValidatorConstants.NAME_TOOLONG_ERROR,
 					ValidatorConstants.NAME_TOOLONG_MESSAGE);
 		}
+		if (!competitionName.matches(ValidatorConstants.NAME_FORMAT)) {
+			errors.rejectValue(ValidatorConstants.NAME_FIELD, ValidatorConstants.NAME_FORMAT_ERROR,
+					ValidatorConstants.NAME_FORMAT_MESSAGE);
+		}
 
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		if (service.getCompetitionViewByName(competitionName) != null) {
-			errors.rejectValue(ValidatorConstants.NAME_FIELD, ValidatorConstants.NAME_INCORRECT_ERROR,
-					ValidatorConstants.NAME_INCORRECT_MESSAGE);
+			errors.rejectValue(ValidatorConstants.NAME_FIELD, ValidatorConstants.NAME_EXIST_ERROR,
+					ValidatorConstants.NAME_EXIST_MESSAGE);
 		}
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidatorConstants.DESCRIPTION_FIELD,
@@ -47,16 +53,33 @@ public class CompetitionValidator implements Validator {
 			errors.rejectValue(ValidatorConstants.DESCRIPTION_FIELD, ValidatorConstants.DESCRIPTION_TOOLONG_ERROR,
 					ValidatorConstants.DESCRIPTION_TOOLONG_MESSAGE);
 		}
+		if (!descriptionName.matches(ValidatorConstants.DESCRIPTION_FORMAT)) {
+			errors.rejectValue(ValidatorConstants.DESCRIPTION_FIELD, ValidatorConstants.DESCRIPTION_FORMAT_ERROR,
+					ValidatorConstants.DESCRIPTION_FORMAT_MESSAGE);
+		}
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidatorConstants.STARTDATE_FIELD,
 				ValidatorConstants.STARTDATE_EMPTY_ERROR, ValidatorConstants.STARTDATE_EMPTY_MESSAGE);
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidatorConstants.FINISHDATE_FIELD,
 				ValidatorConstants.FINISHDATE_EMPTY_ERROR, ValidatorConstants.FINISHDATE_EMPTY_MESSAGE);
 
-		if (competitionDTO.getStartDate() != "" && competitionDTO.getFinishDate() != "") {
-			Date startDate = Date.valueOf(competitionDTO.getStartDate());
-			Date finishDate = Date.valueOf(competitionDTO.getFinishDate());
-			if (startDate.after(finishDate)) {
+		String startDate = competitionDTO.getStartDate();
+		String finishDate = competitionDTO.getFinishDate();
+		DateValidator validator = DateValidator.getInstance();
+		if (!validator.isValid(startDate, ValidatorConstants.DATE_FORMAT)) {
+			errors.rejectValue(ValidatorConstants.STARTDATE_FIELD, ValidatorConstants.STARTDATE_FORMAT_ERROR,
+					ValidatorConstants.DATE_FORMAT_MESSAGE);
+		}
+		if (!validator.isValid(finishDate, ValidatorConstants.DATE_FORMAT)) {
+			errors.rejectValue(ValidatorConstants.FINISHDATE_FIELD, ValidatorConstants.FINISHDATE_FORMAT_ERROR,
+					ValidatorConstants.DATE_FORMAT_MESSAGE);
+		}
+
+		if (startDate != "" && finishDate != "" && validator.isValid(startDate, ValidatorConstants.DATE_FORMAT)
+				&& validator.isValid(finishDate, ValidatorConstants.DATE_FORMAT)) {
+			Date start = Date.valueOf(startDate);
+			Date finish = Date.valueOf(finishDate);
+			if (start.after(finish)) {
 				errors.rejectValue(ValidatorConstants.STARTDATE_FIELD, ValidatorConstants.STARTDATE_INCORRECT_ERROR,
 						ValidatorConstants.STARTDATE_INCORRECT_MESSAGE);
 			}
