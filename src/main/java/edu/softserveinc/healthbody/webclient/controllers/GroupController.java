@@ -61,12 +61,12 @@ public class GroupController {
 		model.addAttribute("lastpagePartNumber", lastpagePartNumber);
 		
 		/** SOAP*/
-//		model.addAttribute("groups",
-//				service.getAllGroupsParticipants(groupsParticipantsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
+		model.addAttribute("groups",
+				service.getAllGroupsParticipants(groupsParticipantsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
 		
-		/** REST*/
-		URLFormatter formatter = new URLFormatter();
-		model.addAttribute("groups", formatter.getGroupsByPartnumberPartsize("GroupsParticipants", groupsParticipantsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
+//		/** REST*/
+//		URLFormatter formatter = new URLFormatter();
+//		model.addAttribute("groups", formatter.getGroupsByPartnumberPartsize("GroupsParticipants", groupsParticipantsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
 		return "listGroups";
 	}
 
