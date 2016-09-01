@@ -393,6 +393,21 @@ public interface HealthBodyService {
 
     /**
      * 
+     * @param arg1
+     * @param arg0
+     */
+    @WebMethod
+    @RequestWrapper(localName = "deleteUserFromGroup", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.DeleteUserFromGroup")
+    @ResponseWrapper(localName = "deleteUserFromGroupResponse", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.DeleteUserFromGroupResponse")
+    @Action(input = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/deleteUserFromGroupRequest", output = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/deleteUserFromGroupResponse")
+    public void deleteUserFromGroup(
+        @WebParam(name = "arg0", targetNamespace = "")
+        UserDTO arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1);
+
+    /**
+     * 
      * @param arg0
      */
     @WebMethod
@@ -429,6 +444,18 @@ public interface HealthBodyService {
     public void createUser(
         @WebParam(name = "arg0", targetNamespace = "")
         UserDTO arg0);
+
+    /**
+     * 
+     * @param arg0
+     */
+    @WebMethod
+    @RequestWrapper(localName = "createGroup", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.CreateGroup")
+    @ResponseWrapper(localName = "createGroupResponse", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.CreateGroupResponse")
+    @Action(input = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/createGroupRequest", output = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/createGroupResponse")
+    public void createGroup(
+        @WebParam(name = "arg0", targetNamespace = "")
+        GroupDTO arg0);
 
     /**
      * 

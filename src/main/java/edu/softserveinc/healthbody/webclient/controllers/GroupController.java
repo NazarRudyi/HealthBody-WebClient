@@ -87,7 +87,7 @@ public class GroupController {
 			return "editGroupDescription";
 		}
 		if (test) {
-			return "group";
+			return "leaveGroup";
 		} else {
 			return "joinGroup";
 		}
@@ -100,6 +100,17 @@ public class GroupController {
 		UserDTO user = service.getUserByLogin(userLogin);
 		user.getGroups().add(service.getGroupById(nameGroup));
 		service.updateUser(user);
+		model.addAttribute("user", service.getUserByLogin(userLogin));
+		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
+		return "userCabinet";
+	}
+	
+	@RequestMapping(value = "/leaveGroup.html", method = RequestMethod.GET)
+	public String leaveGroup(Model model, @Autowired HealthBodyServiceImplService healthBody, String nameGroup) {
+		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		UserDTO user = service.getUserByLogin(userLogin);
+		service.deleteUserFromGroup(user, nameGroup);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
