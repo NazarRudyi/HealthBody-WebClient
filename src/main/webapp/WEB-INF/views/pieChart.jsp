@@ -87,5 +87,10 @@
 	<div style="width: 600px;">
 		<div id="chart_div"></div>
 	</div>
+	<div> 
+	<c:forEach items="${userDurationOnApp}" var="entry">
+	${entry.key}
+	</c:forEach>
+	</div>
 </body>
 </html>
