@@ -86,9 +86,6 @@ public class GroupController {
 		}
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("group", groupDTO);
-		if ("admin".equals(service.getUserByLogin(userLogin).getRoleName())) {
-			return "editGroupDescription";
-		}
 		if (test) {
 			return "leaveGroup";
 		} else {
