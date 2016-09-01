@@ -2,6 +2,7 @@ package edu.softserveinc.healthbody.webclient.controllers;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,14 +17,14 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
-import edu.softserveinc.healthbody.webclient.wrapperD.URLFormatter;
 
 @Controller
 public class GroupController {
 
 	@RequestMapping(value = "/listGroups.html", method = RequestMethod.GET)
 	public String getGroups(Model model, @Autowired HealthBodyServiceImplService healthBody,
-			@RequestParam(value = "groupsParticipantsPartnumber", required = false) Integer groupsParticipantsPartnumber) throws IOException {
+			@RequestParam(value = "groupsParticipantsPartnumber", required = false) Integer groupsParticipantsPartnumber)
+			throws IOException {
 
 		/** Setting default quantity groups per page */
 		final Integer DEFAULT_QUANTITY_GROUPS_PER_PAGE = 1;
@@ -59,14 +60,16 @@ public class GroupController {
 		model.addAttribute("startPartNumber", startPartNumber);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastpagePartNumber", lastpagePartNumber);
-		
-		/** SOAP*/
+
+		/** SOAP */
 		model.addAttribute("groups",
 				service.getAllGroupsParticipants(groupsParticipantsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
-		
-//		/** REST*/
-//		URLFormatter formatter = new URLFormatter();
-//		model.addAttribute("groups", formatter.getGroupsByPartnumberPartsize("GroupsParticipants", groupsParticipantsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
+
+		// /** REST*/
+		// URLFormatter formatter = new URLFormatter();
+		// model.addAttribute("groups",
+		// formatter.getGroupsByPartnumberPartsize("GroupsParticipants",
+		// groupsParticipantsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
 		return "listGroups";
 	}
 
@@ -104,7 +107,7 @@ public class GroupController {
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
 	}
-	
+
 	@RequestMapping(value = "/leaveGroup.html", method = RequestMethod.GET)
 	public String leaveGroup(Model model, @Autowired HealthBodyServiceImplService healthBody, String nameGroup) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -114,6 +117,37 @@ public class GroupController {
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
+	}
+
+	@RequestMapping(value = "/createGroup.html", method = RequestMethod.GET)
+	public String createCompetitionDescription(Model model, @Autowired HealthBodyServiceImplService healthBody) {
+		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		GroupDTO groupDTO = new GroupDTO();
+		groupDTO.setIdGroup(null);
+		groupDTO.setName(null);
+		groupDTO.setDescriptions(null);
+		groupDTO.setCount("0");
+		groupDTO.setScoreGroup(null);
+		groupDTO.setStatus(null);
+		model.addAttribute("user", service.getUserByLogin(userLogin));
+		model.addAttribute("groupToCreate", groupDTO);
+		return "createGroup";
+	}
+
+	@RequestMapping(value = "/createGroup.html", method = RequestMethod.POST)
+	public String createCompetition(@ModelAttribute("groupToCreate") GroupDTO groupToCreate, Map<String, Object> model,
+			@Autowired HealthBodyServiceImplService healthBody) {
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		GroupDTO groupDTO = groupToCreate;
+		groupDTO.setIdGroup(UUID.randomUUID().toString());
+		groupDTO.setName(groupToCreate.getName());
+		groupDTO.setDescriptions(groupToCreate.getDescriptions());
+		groupDTO.setStatus(groupToCreate.getStatus());
+		groupDTO.setCount(groupToCreate.getCount());
+		service.createGroup(groupDTO);
+		return "redirect:/group.html?nameGroup=" + groupDTO.getIdGroup() + "&userLogin=" + userLogin;
 	}
 
 	@RequestMapping(value = "/editGroupDescription.html", method = RequestMethod.GET)
