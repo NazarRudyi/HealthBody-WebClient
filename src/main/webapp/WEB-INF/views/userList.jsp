@@ -61,7 +61,7 @@
 				<th>Login</th>
 				<th>Name</th>
 				<th>Surname</th>
-				<th>E-mail :</th>
+				<!-- <th>E-mail :</th> -->
 				<th>Age</th>
 				<th>Weight :</th>
 				<th>Gender :</th>
@@ -74,7 +74,7 @@
 					<td>${p.login}</td>
 					<td>${p.firstname}</td>
 					<td>${p.lastname}</td>
-					<td>${p.email}</td>
+				<%-- 	<td>${p.email}</td> --%>
 					<td>${p.age}</td>
 					<td>${p.weight}</td>
 					<td>${p.gender}</td>
