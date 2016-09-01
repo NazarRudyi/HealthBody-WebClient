@@ -12,7 +12,8 @@
 <title>Create competition</title>
 <link rel="icon"
 	href="https://d13yacurqjgara.cloudfront.net/users/678458/screenshots/1856046/h-icon.png">
-<link rel="stylesheet" type="text/css" href="resources/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css"
+	href="resources/css/jquery-ui.css">
 <!-- Bootstrap -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -22,13 +23,6 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
 <script type="text/javascript" src="resources/js/jquery-ui.js"></script>
-<script>
-	$(function() {
-		$('.my-datepicker').datepicker({
-			dateFormat : 'yy-mm-dd'
-		});
-	});
-</script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -62,30 +56,24 @@
 	<br>
 	<br>
 	<div class="container">
-		<form:form action="createCompetition.html" method="POST"
-			commandName="competitionToCreate">
+		<form:form action="createGroup.html" method="POST"
+			commandName="groupToCreate">
 			<table class="table">
 				<tr class="info">
 					<td><form:label path="name">Name:</form:label></td>
 					<td><form:input path="name" /></td>
-					<td><form:errors path="name" class="error" color="red"/></td>
 				</tr>
 				<tr class="info">
-					<td><form:label path="description">Description:</form:label></td>
-					<td><textarea name="description" rows="4" cols="50">${competitionToCreate.description}</textarea></td>
-					<td><form:errors path="description" class="error" color="red"/></td>
+					<td><form:label path="descriptions">Description:</form:label></td>
+					<td><textarea name="descriptions" rows="4" cols="50"></textarea></td>
 				</tr>
 				<tr class="info">
-					<td><form:label path="startDate">Start Date:</form:label></td>
-					<td><form:input path="startDate" type="text"
-							class="my-datepicker" size="30" /></td>
-					<td><form:errors path="startDate" class="error" color="red"/></td>
+					<td><form:label path="status">Status:</form:label></td>
+					<td><textarea name="status" rows="4" cols="50"></textarea></td>
 				</tr>
 				<tr class="info">
-					<td><form:label path="finishDate">Finish Date:</form:label></td>
-					<td><form:input path="finishDate" type="text"
-							class="my-datepicker" size="30" /></td>
-					<td><form:errors path="finishDate" class="error" color="red"/></td>
+					<td><form:label path="count">Count:</form:label></td>
+					<td><form:input path="count" readonly="true" type="hidden"></form:input></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="left"><input class="btn btn-success"
