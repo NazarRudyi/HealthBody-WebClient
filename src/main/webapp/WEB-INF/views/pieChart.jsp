@@ -89,7 +89,7 @@
 	</div>
 	<div> 
 	<c:forEach items="${userDurationOnApp}" var="entry">
-	${entry.key}
+	${entry.key}, ${entry.value}
 	</c:forEach>
 	</div>
 </body>
