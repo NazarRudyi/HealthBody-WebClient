@@ -63,7 +63,7 @@
 				<th>Surname</th>
 				<!-- <th>E-mail :</th> -->
 				<th>Age</th>
-				<th>Weight :</th>
+				<!-- <th>Weight :</th> -->
 				<th>Gender :</th>
 				<th>Health :</th>
 				<th>Score :</th>
@@ -76,7 +76,7 @@
 					<td>${p.lastname}</td>
 				<%-- 	<td>${p.email}</td> --%>
 					<td>${p.age}</td>
-					<td>${p.weight}</td>
+					<%-- <td>${p.weight}</td> --%>
 					<td>${p.gender}</td>
 					<td>${p.health}</td>
 					<td>${p.score}</td>
