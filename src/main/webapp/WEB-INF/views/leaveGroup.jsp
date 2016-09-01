@@ -76,7 +76,7 @@
 									</tr>
 								</tbody>
 								<tr>
-										<td colspan="2" align="left"><a class="btn btn-primary"  type="submit" href="joinGroup.html?nameGroup=${group.idGroup}&userLogin=${user.login}">Leave Group</a></td>
+										<td colspan="2" align="left"><a class="btn btn-primary"  type="submit" href="leaveGroup.html?nameGroup=${group.idGroup}&userLogin=${user.login}">Leave Group</a></td>
 									</tr>
 							</table>
 						</div>
