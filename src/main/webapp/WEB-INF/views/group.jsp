@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -14,31 +14,32 @@
 <!-- Bootstrap -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script  type="text/javascript"
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" async></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script  type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+	async></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-				aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar">1</span> <span class="icon-bar">2</span> <span
-					class="icon-bar">3</span>
-			</button>
-			<a class="navbar-brand" href="main.html">Health Body</a>
-			<ul class="nav navbar-nav">
-				<li><a href="userCabinet.html">${user.login}</a></li>
-				<li><a href="userlist.html">User List</a></li>
-				<li><a href="listGroups.html">Groups</a></li>
-				<li><a href="listCompetitions.html">Competitions</a></li>
-			</ul>
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar">1</span> <span class="icon-bar">2</span> <span
+						class="icon-bar">3</span>
+				</button>
+				<a class="navbar-brand" href="main.html">Health Body</a>
+				<ul class="nav navbar-nav">
+					<li><a href="userCabinet.html">${user.login}</a></li>
+					<li><a href="userlist.html">User List</a></li>
+					<li><a href="listGroups.html">Groups</a></li>
+					<li><a href="listCompetitions.html">Competitions</a></li>
+				</ul>
+			</div>
 		</div>
-	</div>
 	</nav>
 	<br>
 	<br>
@@ -75,7 +76,7 @@
 										<td>${group.scoreGroup}</td>
 									</tr>
 								</tbody>
-									<tr>
+								<tr>
 									<td colspan="2" align="left"><a class="btn btn-primary"
 										type="submit" href="listGroups.html">Groups</a></td>
 								</tr>
