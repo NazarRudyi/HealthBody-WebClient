@@ -100,6 +100,10 @@ public class GroupController {
 		UserDTO user = service.getUserByLogin(userLogin);
 		user.getGroups().add(service.getGroupById(nameGroup));
 		service.updateUser(user);
+		GroupDTO group = service.getGroupById(nameGroup);
+		Integer userCount = Integer.parseInt(group.getCount()) + 1;
+		group.setCount(userCount.toString());
+		service.updateGroup(group);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
@@ -111,6 +115,13 @@ public class GroupController {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		UserDTO user = service.getUserByLogin(userLogin);
 		service.deleteUserFromGroup(user, nameGroup);
+		GroupDTO group = service.getGroupById(nameGroup);
+		Integer userCount = Integer.parseInt(group.getCount()) - 1;
+		if(userCount <= 0) {
+			userCount = 0;
+		}
+		group.setCount(userCount.toString());
+		service.updateGroup(group);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
