@@ -63,16 +63,16 @@
 					<td><form:label path="name">Name:</form:label></td>
 					<td><form:input path="name" /></td>
 				</tr>
-				<tr class="info">
+				<tr>
 					<td><form:label path="descriptions">Description:</form:label></td>
 					<td><textarea name="descriptions" rows="4" cols="50"></textarea></td>
 				</tr>
-				<tr class="info">
+				<tr>
 					<td><form:label path="status">Status:</form:label></td>
-					<td><textarea name="status" rows="4" cols="50"></textarea></td>
+					<td><textarea name="status" rows="2" cols="25"></textarea></td>
 				</tr>
 				<tr class="info">
-					<td><form:label path="count" readonly="true" type="hidden">Count:</form:label></td>
+					<td><form:label path="count" readonly="true" type="hidden"></form:label></td>
 					<td><form:input path="count" readonly="true" type="hidden"></form:input></td>
 				</tr>
 				<tr>
