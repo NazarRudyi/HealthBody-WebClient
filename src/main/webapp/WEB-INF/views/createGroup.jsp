@@ -71,10 +71,10 @@
 					<td><form:label path="status">Status:</form:label></td>
 					<td><textarea name="status" rows="2" cols="25"></textarea></td>
 				</tr>
-				<tr class="info">
-					<td><form:label path="count" readonly="true" type="hidden"></form:label></td>
-					<td><form:input path="count" readonly="true" type="hidden"></form:input></td>
-				</tr>
+				
+					<form:label path="count" readonly="true" type="hidden"></form:label>
+					<form:input path="count" readonly="true" type="hidden"></form:input>
+				
 				<tr>
 					<td colspan="2" align="left"><input class="btn btn-success"
 						type="submit" value="Save" /></td>
