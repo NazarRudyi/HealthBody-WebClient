@@ -136,7 +136,7 @@ public class GroupController {
 		groupDTO.setName(null);
 		groupDTO.setDescriptions(null);
 		groupDTO.setCount("0");
-		groupDTO.setScoreGroup(null);
+		groupDTO.setScoreGroup("0");
 		groupDTO.setStatus(null);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("groupToCreate", groupDTO);
