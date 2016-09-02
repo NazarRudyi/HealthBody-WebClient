@@ -154,6 +154,7 @@ public class GroupController {
 		groupDTO.setDescriptions(groupToCreate.getDescriptions());
 		groupDTO.setStatus(groupToCreate.getStatus());
 		groupDTO.setCount(groupToCreate.getCount());
+		groupDTO.setScoreGroup(groupToCreate.getScoreGroup());
 		service.createGroup(groupDTO);
 		return "redirect:/group.html?nameGroup=" + groupDTO.getIdGroup() + "&userLogin=" + userLogin;
 	}

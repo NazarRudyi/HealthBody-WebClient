@@ -72,7 +72,7 @@
 					<td><textarea name="status" rows="4" cols="50"></textarea></td>
 				</tr>
 				<tr class="info">
-					<td><form:label path="count">Count:</form:label></td>
+					<td><form:label path="count" readonly="true" type="hidden">Count:</form:label></td>
 					<td><form:input path="count" readonly="true" type="hidden"></form:input></td>
 				</tr>
 				<tr>
