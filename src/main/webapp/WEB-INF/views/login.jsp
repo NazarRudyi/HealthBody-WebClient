@@ -158,7 +158,7 @@
 				</div>
 			</div>
 			<footer>
-				<p class="site-info">&copy; 2016 softserve IT Academy, Inc.</p>
+				<p class="site-info">&copy; Lv-185 Java, 2016 softserve IT Academy, Inc.</p>
 			</footer>
 		</div>
 		<div id="signupbox" style="display: none; margin-top: 50px"

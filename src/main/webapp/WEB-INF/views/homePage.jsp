@@ -70,7 +70,7 @@
 			data-slide="next"> <span class="icon-next"></span>
 		</a>
 		<footer>
-			<p class="site-info">&copy; 2016 softserve IT Academy, Inc.</p>
+			<p class="site-info">&copy; Lv-185 Java, 2016 softserve IT Academy, Inc.</p>
 		</footer>
 	</div>
 </body>
