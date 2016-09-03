@@ -31,8 +31,8 @@
             is3D : true,
             pieSliceText: 'label',
             tooltip :  {showColorCode: true},
-            'width' : 900,
-            'height' : 500
+            'width' : 1200,
+            'height' : 700
         };
  
         // Instantiate and draw our chart, passing in some options.
