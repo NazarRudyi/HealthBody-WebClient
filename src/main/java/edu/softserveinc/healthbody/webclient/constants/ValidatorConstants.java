@@ -42,5 +42,6 @@ public class ValidatorConstants {
 	public static final String STARTDATE_EMPTY_MESSAGE = "Please enter a competition startDate";
 	public static final String STARTDATE_INCORRECT_MESSAGE = "Please enter correct start and finish dates";
 	public static final String FINISHDATE_EMPTY_MESSAGE = "Please enter a competition finishDate";
+	public static final String GROUP_STATUS_EMPTY_MESSAGE = "Please enter a group status";
 	public static final String GROUP_STATUS_TOOLONG_MESSAGE = "Please enter \"active\" or \"disabled\"";
 }

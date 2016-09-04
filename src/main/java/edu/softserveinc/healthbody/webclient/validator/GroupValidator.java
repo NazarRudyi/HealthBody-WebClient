@@ -95,7 +95,7 @@ public class GroupValidator implements Validator {
 					ValidatorConstants.DESCRIPTION_FORMAT_MESSAGE);
 		}
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidatorConstants.GROUP_STATUS,
-				ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, ValidatorConstants.GROUP_STATUS_TOOLONG_MESSAGE);
+				ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, ValidatorConstants.GROUP_STATUS_EMPTY_MESSAGE);
 
 		String status = groupDTO.getStatus();
 		if (!("active".equals(status)) || ("disabled".equals(status))) {
