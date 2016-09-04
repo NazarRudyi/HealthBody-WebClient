@@ -38,7 +38,7 @@
 					</tr>
 					<tr>
 						<td><form:label path="status">Status :</form:label></td>
-						<td><form:input path="status" value="${group.status}"></form:input>${group.status}</td>
+						<td><form:input path="status" value="${group.status}"></form:input></td>
 						<td><form:errors path="status" class="error"
 								style="color:red;" /></td>
 					</tr>
