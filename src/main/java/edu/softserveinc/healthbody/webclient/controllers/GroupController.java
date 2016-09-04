@@ -143,7 +143,7 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/createGroup.html", method = RequestMethod.POST)
-	public String createCompetition(@ModelAttribute("groupToCreate") GroupDTO groupToCreate, Map<String, Object> model,
+	public String createCompetition(@ModelAttribute("groupToCreate") GroupDTO groupToCreate, Model model,
 			BindingResult result) {
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();

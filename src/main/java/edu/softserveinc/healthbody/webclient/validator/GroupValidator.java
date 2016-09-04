@@ -52,7 +52,8 @@ public class GroupValidator implements Validator {
 
 		String status = groupDTO.getStatus();
 		if (!("active".equals(status)) || ("disabled".equals(status))) {
-			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, ValidatorConstants.GROUP_STATUS_TOOLONG_MESSAGE);
+			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR,
+					ValidatorConstants.GROUP_STATUS_TOOLONG_MESSAGE);
 		}
 	}
 
@@ -61,7 +62,6 @@ public class GroupValidator implements Validator {
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		GroupDTO groupDTO = (GroupDTO) target;
-
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidatorConstants.NAME_FIELD,
 				ValidatorConstants.NAME_EMPTY_ERROR, ValidatorConstants.GROUP_NAME_EMPTY_MESSAGE);
 
@@ -75,9 +75,11 @@ public class GroupValidator implements Validator {
 			errors.rejectValue(ValidatorConstants.NAME_FIELD, ValidatorConstants.NAME_FORMAT_ERROR,
 					ValidatorConstants.NAME_FORMAT_MESSAGE);
 		}
-		if (service.getGroupByName(groupName) != null) {
-			errors.rejectValue(ValidatorConstants.NAME_FIELD, ValidatorConstants.NAME_EXIST_ERROR,
-					ValidatorConstants.NAME_EXIST_MESSAGE);
+		if (!groupDTO.getName().isEmpty()) {
+			if (service.getGroupByName(groupName) != null) {
+				errors.rejectValue(ValidatorConstants.NAME_FIELD, ValidatorConstants.NAME_EXIST_ERROR,
+						ValidatorConstants.NAME_EXIST_MESSAGE);
+			}
 		}
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidatorConstants.DESCRIPTIONS_FIELD,
 				ValidatorConstants.DESCRIPTION_EMPTY_ERROR, ValidatorConstants.GROUP_DESCRIPTION_EMPTY_MESSAGE);
@@ -97,7 +99,8 @@ public class GroupValidator implements Validator {
 
 		String status = groupDTO.getStatus();
 		if (!("active".equals(status)) || ("disabled".equals(status))) {
-			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, ValidatorConstants.GROUP_STATUS_TOOLONG_MESSAGE);
+			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR,
+					ValidatorConstants.GROUP_STATUS_TOOLONG_MESSAGE);
 		}
 	}
 }
