@@ -52,7 +52,7 @@ public class GroupValidator implements Validator {
 
 		String status = groupDTO.getStatus();
 		if (!("active".equals(status)) || ("disabled".equals(status))) {
-			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, "");
+			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, ValidatorConstants.GROUP_STATUS_TOOLONG_MESSAGE);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class GroupValidator implements Validator {
 
 		String status = groupDTO.getStatus();
 		if (!("active".equals(status)) || ("disabled".equals(status))) {
-			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, "");
+			errors.rejectValue(ValidatorConstants.GROUP_STATUS, ValidatorConstants.GROUP_STATUS_EMPTY_ERROR, ValidatorConstants.GROUP_STATUS_TOOLONG_MESSAGE);
 		}
 	}
 }
