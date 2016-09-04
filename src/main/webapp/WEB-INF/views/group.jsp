@@ -40,11 +40,11 @@
 											<td>Status :</td>
 											<td>${group.status}</td>
 										</tr>
+										<tr>
+											<td colspan="2" align="left"><a class="btn btn-primary"
+												type="submit" href="listGroups.html">Groups</a></td>
+										</tr>
 									</tbody>
-									<tr>
-										<td colspan="2" align="left"><a class="btn btn-primary"
-											type="submit" href="listGroups.html">Groups</a></td>
-									</tr>
 									<c:if test="${user.roleName == 'admin'}">
 										<tr>
 											<td colspan="2" align="left"><a class="btn btn-primary"
