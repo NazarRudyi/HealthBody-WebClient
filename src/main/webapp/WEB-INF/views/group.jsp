@@ -36,6 +36,10 @@
 										<td>Score :</td>
 										<td>${group.scoreGroup}</td>
 									</tr>
+									<tr>
+										<td>Status :</td>
+										<td>${group.status}</td>
+									</tr>
 								</tbody>
 								<tr>
 									<td colspan="2" align="left"><a class="btn btn-primary"

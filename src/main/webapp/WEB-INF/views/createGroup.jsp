@@ -13,14 +13,17 @@
 				<tr class="info">
 					<td><form:label path="name">Name:</form:label></td>
 					<td><form:input path="name" /></td>
+					<td><form:errors path="name" class="error" style="color:red;"/></td>
 				</tr>
 				<tr>
 					<td><form:label path="descriptions">Description:</form:label></td>
 					<td><textarea name="descriptions" rows="4" cols="50"></textarea></td>
+					<td><form:errors path="descriptions" class="error" style="color:red;"/></td>
 				</tr>
 				<tr>
 					<td><form:label path="status">Status:</form:label></td>
 					<td><textarea name="status" rows="2" cols="25"></textarea></td>
+					<td><form:errors path="status" class="error" style="color:red;"/></td>
 				</tr>
 				
 					<form:label path="count" readonly="true" type="hidden"></form:label>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,9 +18,13 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
+import edu.softserveinc.healthbody.webclient.validator.GroupValidator;
 
 @Controller
 public class GroupController {
+	
+	@Autowired
+	GroupValidator groupValidator;
 
 	@RequestMapping(value = "/listGroups.html", method = RequestMethod.GET)
 	public String getGroups(Model model, @Autowired HealthBodyServiceImplService healthBody,
@@ -132,12 +137,6 @@ public class GroupController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		GroupDTO groupDTO = new GroupDTO();
-		groupDTO.setIdGroup(null);
-		groupDTO.setName(null);
-		groupDTO.setDescriptions(null);
-		groupDTO.setCount("0");
-		groupDTO.setScoreGroup("0");
-		groupDTO.setStatus(null);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("groupToCreate", groupDTO);
 		return "createGroup";
@@ -145,15 +144,20 @@ public class GroupController {
 
 	@RequestMapping(value = "/createGroup.html", method = RequestMethod.POST)
 	public String createCompetition(@ModelAttribute("groupToCreate") GroupDTO groupToCreate, Map<String, Object> model,
-			@Autowired HealthBodyServiceImplService healthBody) {
+			BindingResult result) {
+		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		groupValidator.validateCreate(groupToCreate, result);
+		if (result.hasErrors()) {
+			return "createGroup";
+		}
 		GroupDTO groupDTO = groupToCreate;
 		groupDTO.setIdGroup(UUID.randomUUID().toString());
 		groupDTO.setName(groupToCreate.getName());
 		groupDTO.setDescriptions(groupToCreate.getDescriptions());
 		groupDTO.setStatus(groupToCreate.getStatus());
-		groupDTO.setCount(groupToCreate.getCount());
+		groupDTO.setCount("0");
 		groupDTO.setScoreGroup(groupToCreate.getScoreGroup());
 		service.createGroup(groupDTO);
 		return "redirect:/group.html?nameGroup=" + groupDTO.getIdGroup() + "&userLogin=" + userLogin;
@@ -171,10 +175,14 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "editingGroup", method = RequestMethod.POST)
-	public String saveEdit(@ModelAttribute("group") GroupDTO groupEdit, Map<String, Object> model,
-			@Autowired HealthBodyServiceImplService healthBody) {
+	public String saveEdit(@ModelAttribute("group") GroupDTO groupEdit, Map<String, Object> model, BindingResult result) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		groupValidator.validate(groupEdit, result);
+		if(result.hasErrors()) {
+			return "editingGroup";
+		}
 		GroupDTO groupDTO = groupEdit;
 		groupDTO.setIdGroup(groupEdit.getIdGroup());
 		groupDTO.setDescriptions(groupEdit.getDescriptions());
