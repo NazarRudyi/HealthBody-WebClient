@@ -52,7 +52,6 @@ public class EditUserController {
 		user.setGender(userToEdit.getGender());
 		user.setHealth(userToEdit.getHealth());
 		service.updateUser(user);
-		model.put("user", service.getUserByLogin(userLogin));
 
 //		Rest
 //		URLFormatter formatter = new URLFormatter();
@@ -67,8 +66,7 @@ public class EditUserController {
 //		formatterForUserUpdate.updateUser(user);
 //		model.put("user", formatter.getUserByLogin("UserByLogin", userLogin));
 		
-		model.put("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
-		return "userCabinet";
+		return "redirect:/userCabinet.html";
 	}
 
 }
