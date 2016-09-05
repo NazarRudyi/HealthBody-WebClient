@@ -98,6 +98,7 @@ public class CompetitionController {
 
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
+		model.addAttribute("groupcompetitions", service.getAllByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		return "userCabinet";
 	}
 
@@ -109,6 +110,7 @@ public class CompetitionController {
 		service.deleteUserCompetition(idCompetition, userLogin);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
+		model.addAttribute("groupcompetitions", service.getAllByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 		return "userCabinet";
 	}
