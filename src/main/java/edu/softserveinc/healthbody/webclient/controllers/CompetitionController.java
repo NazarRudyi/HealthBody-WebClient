@@ -29,6 +29,7 @@ public class CompetitionController {
 	private CompetitionEditValidator competitionEditValidator;
 
 	final Integer COMPETITIONS_PER_PAGE = 5;
+	final Integer GROUPS_PER_PAGE = 5;
 
 	@RequestMapping(value = "/listCompetitions.html", method = RequestMethod.GET)
 	public String getListCurrentCompetitions(Model model, @Autowired HealthBodyServiceImplService healthBody,
@@ -98,7 +99,7 @@ public class CompetitionController {
 
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
-		model.addAttribute("groupcompetitions", service.getAllByCompetition(1, Integer.MAX_VALUE, idCompetition));
+		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		return "userCabinet";
 	}
 
@@ -110,9 +111,54 @@ public class CompetitionController {
 		service.deleteUserCompetition(idCompetition, userLogin);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
-		model.addAttribute("groupcompetitions", service.getAllByCompetition(1, Integer.MAX_VALUE, idCompetition));
+		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 		return "userCabinet";
+	}
+	
+	@RequestMapping(value = "/listOfGroups.html", method = RequestMethod.GET)
+	public String getListCurrentGroups(Model model, @Autowired HealthBodyServiceImplService healthBody,
+			String idCompetition, @RequestParam(value = "partNumber", required = false) Integer partNumber, HttpServletRequest request) {
+		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		int startPartNumber = 1;
+		if (partNumber == null || partNumber <= 0)
+			partNumber = 1;
+		int n = service.getAllGroupsParticipants(1, Integer.MAX_VALUE).size();
+		int lastPartNumber = (int) Math.ceil(n * 1.0 / GROUPS_PER_PAGE);
+		if (partNumber > lastPartNumber)
+			partNumber = lastPartNumber;
+		int currentPage = partNumber;
+		model.addAttribute("startPartNumber", startPartNumber);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPartNumber", lastPartNumber);
+		model.addAttribute("user", service.getUserByLogin(userLogin));
+		model.addAttribute("groups", service.getAllGroupsParticipants(partNumber, GROUPS_PER_PAGE));
+		model.addAttribute("getCompetition", service.getCompetitionViewById(idCompetition));
+		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
+		return "listOfGroups";
+	}
+	
+	@RequestMapping(value = "/joinGroupCompetition.html", method = RequestMethod.GET)
+	public String joinCompetition(Model model, @Autowired HealthBodyServiceImplService healthBody,
+			String idCompetition, String idGroup) {
+		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		service.addGroupInCompetition(idCompetition, idGroup);
+		model.addAttribute("idCompetition", idCompetition);
+		model.addAttribute("userLogin", userLogin);
+		return "redirect:/competition.html?idCompetition={idCompetition}&userLogin={userLogin}";
+	}
+
+	@RequestMapping(value = "/leaveGroupCompetition.html", method = RequestMethod.GET)
+	public String leaveCompetition(Model model, @Autowired HealthBodyServiceImplService healthBody,
+			String idCompetition, String idGroup) {
+		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		service.deleteGroupCompetition(idCompetition, idGroup);
+		model.addAttribute("idCompetition", idCompetition);
+		model.addAttribute("userLogin", userLogin);
+		return "redirect:/competition.html?idCompetition={idCompetition}&userLogin={userLogin}";
 	}
 
 	@RequestMapping(value = "/createCompetition.html", method = RequestMethod.GET)
