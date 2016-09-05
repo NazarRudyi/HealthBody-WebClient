@@ -40,7 +40,7 @@ public class EditUserController {
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.put("userToEdit", service.getUserByLogin(userLogin));
+		model.put("user", service.getUserByLogin(userLogin));
 		if (result.hasErrors()) {
 			return "editUser";
 		}
