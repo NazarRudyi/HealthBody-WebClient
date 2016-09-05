@@ -40,8 +40,8 @@ public class EditUserController {
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.put("user", service.getUserByLogin(userLogin));
 		if (result.hasErrors()) {
+			model.put("user", service.getUserByLogin(userLogin));
 			return "editUser";
 		}
 		UserDTO user = service.getUserByLogin(userLogin);
@@ -52,8 +52,6 @@ public class EditUserController {
 		user.setGender(userToEdit.getGender());
 		user.setHealth(userToEdit.getHealth());
 		service.updateUser(user);
-		
-
 //		Rest
 //		URLFormatter formatter = new URLFormatter();
 //		UserDTORest user = formatter.getUserByLogin("UserByLogin", userLogin);
@@ -66,7 +64,7 @@ public class EditUserController {
 //		URLFormatter formatterForUserUpdate = new URLFormatter();
 //		formatterForUserUpdate.updateUser(user);
 //		model.put("user", formatter.getUserByLogin("UserByLogin", userLogin));
-		
+		model.put("user", service.getUserByLogin(userLogin));
 		model.put("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
 	}
