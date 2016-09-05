@@ -17,13 +17,16 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodySer
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetitionsDTO;
 import edu.softserveinc.healthbody.webclient.utils.CustomDateFormater;
 import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
-import edu.softserveinc.healthbody.webclient.validator.CompetitionValidator;
+import edu.softserveinc.healthbody.webclient.validator.CompetitionCreateValidator;
+import edu.softserveinc.healthbody.webclient.validator.CompetitionEditValidator;
 
 @Controller
 public class CompetitionController {
 
 	@Autowired
-	private CompetitionValidator competitionValidator;
+	private CompetitionCreateValidator competitionCreateValidator;
+	@Autowired
+	private CompetitionEditValidator competitionEditValidator;
 
 	final Integer COMPETITIONS_PER_PAGE = 5;
 
@@ -71,7 +74,7 @@ public class CompetitionController {
 		model.addAttribute("getCompetition", service.getCompetitionViewById(idCompetition));
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 		for (CompetitionDTO competition : service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin)) {
-			if (idCompetition.equals(competition.getIdCompetition())) {
+			if (competition.getIdCompetition().equals(idCompetition)) {
 				return "leaveCompetition";
 			}
 		}
@@ -123,7 +126,7 @@ public class CompetitionController {
 	@RequestMapping(value = "/createCompetition.html", method = RequestMethod.POST)
 	public String createCompetition(@ModelAttribute("competitionToCreate") CompetitionDTO competitionToCreate,
 			Model model, BindingResult result) {
-		competitionValidator.validate(competitionToCreate, result);
+		competitionCreateValidator.validate(competitionToCreate, result);
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -155,7 +158,7 @@ public class CompetitionController {
 	@RequestMapping(value = "/editCompetition.html", method = RequestMethod.POST)
 	public String editCompetition(@ModelAttribute("competitionToEdit") CompetitionDTO competitionToEdit, Model model,
 			BindingResult result) {
-		competitionValidator.validate(competitionToEdit, result);
+		competitionEditValidator.validate(competitionToEdit, result);
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
