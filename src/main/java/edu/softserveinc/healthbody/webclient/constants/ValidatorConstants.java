@@ -9,7 +9,7 @@ public class ValidatorConstants {
 	public static final String DESCRIPTION_FORMAT = "^[a-zA-Z0-9._%+-]+( [a-zA-Z0-9._%+-]+)*$";
 	public static final String USER_NAME_FORMAT = "^[\\pL]+";
 	public static final String AGE_FORMAT = "^[0-9]+";
-	public static final String WEIGHT_FORMAT = "^([0-9]+)(\\.[0-9]*)$";
+	public static final String WEIGHT_FORMAT = "^([0-9]+)([\\.0-9]*)$";
 
 	public static final String NAME_FIELD = "name";
 	public static final String DESCRIPTION_FIELD = "description";
