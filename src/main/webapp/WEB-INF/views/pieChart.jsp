@@ -20,7 +20,7 @@
  
         // Create the data table.
         var data = google.visualization.arrayToDataTable([
-                                                          ['Login', 'Duration(minutes)'],
+                                                          ['Login', 'Duration(days)'],
                                                           <c:forEach items="${userDurationOnApp}" var="entry">
                                                           ['${entry.key}', ${entry.value}],
                                                           </c:forEach>

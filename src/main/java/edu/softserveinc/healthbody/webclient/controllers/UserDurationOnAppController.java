@@ -28,7 +28,7 @@ public class UserDurationOnAppController {
 			long durationOnApp = 0;
 			for (StatisticsDTO userStatistics : statisticsService.getStatisticsByUserLogin(userLogin)) {
 				if (userStatistics.getLogoutDate() != null) {
-				durationOnApp += (userStatistics.getLogoutDate().getTime() - userStatistics.getLoginDate().getTime())/60000;
+				durationOnApp += (userStatistics.getLogoutDate().getTime() - userStatistics.getLoginDate().getTime())/3600000;
 				}
 			}
 			userDurationOnApp.put(userLogin, durationOnApp);
