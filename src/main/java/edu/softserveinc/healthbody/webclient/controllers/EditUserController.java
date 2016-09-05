@@ -39,6 +39,7 @@ public class EditUserController {
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		userToEdit.setLogin(userLogin);
 		userValidator.validate(userToEdit, result);
 		if (result.hasErrors()) {
 			return "editUser";
@@ -51,6 +52,7 @@ public class EditUserController {
 		user.setGender(userToEdit.getGender());
 		user.setHealth(userToEdit.getHealth());
 		service.updateUser(user);
+		model.put("user", service.getUserByLogin(userLogin));
 
 //		Rest
 //		URLFormatter formatter = new URLFormatter();
