@@ -8,7 +8,7 @@
 	<tiles:putAttribute name="body">
 	<div class="container">
 		<form:form action="editUser.html" method="POST"
-			commandName="userToEdit">
+			commandName="user">
 			<table class="table">
 				<tr class="info">
 					<td><form:label path="login">Login:</form:label></td>

@@ -68,5 +68,5 @@ public class ValidatorConstants {
 	public static final String USER_NAME_FORMAT_MESSAGE = "Name must consist only of letters";
 	public static final String SURNAME_FORMAT_MESSAGE = "Surname must consist only of letters";
 	public static final String AGE_FORMAT_MESSAGE = "Age must consist only of digits";
-	public static final String WEIGHT_FORMAT_MESSAGE = "Weight must consist only of digits";
+	public static final String WEIGHT_FORMAT_MESSAGE = "Weight must consist only of digits and . character";
 }

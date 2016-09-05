@@ -29,12 +29,12 @@ public class EditUserController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		UserDTO userToEdit = service.getUserByLogin(userLogin);
-		model.put("userToEdit", userToEdit);
+		model.put("user", userToEdit);
 		return "editUser";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String saveEdit(@ModelAttribute("userToEdit") UserDTO userToEdit, Map<String, Object> model, 
+	public String saveEdit(@ModelAttribute("user") UserDTO userToEdit, Map<String, Object> model, 
 			BindingResult result) {
 		userValidator.validate(userToEdit, result);
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
