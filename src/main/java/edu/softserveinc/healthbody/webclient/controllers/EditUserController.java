@@ -29,19 +29,18 @@ public class EditUserController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		UserDTO userToEdit = service.getUserByLogin(userLogin);
-		model.put("user", userToEdit);
+		model.put("userToEdit", userToEdit);
 		return "editUser";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String saveEdit(@ModelAttribute("user") UserDTO userToEdit, Map<String, Object> model, 
+	public String saveEdit(@ModelAttribute("userToEdit") UserDTO userToEdit, Map<String, Object> model, 
 			BindingResult result) {
-		userValidator.validate(userToEdit, result);
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		userValidator.validate(userToEdit, result);
 		if (result.hasErrors()) {
-			model.put("user", service.getUserByLogin(userLogin));
 			return "editUser";
 		}
 		UserDTO user = service.getUserByLogin(userLogin);
@@ -52,6 +51,8 @@ public class EditUserController {
 		user.setGender(userToEdit.getGender());
 		user.setHealth(userToEdit.getHealth());
 		service.updateUser(user);
+		model.put("user", service.getUserByLogin(userLogin));
+
 //		Rest
 //		URLFormatter formatter = new URLFormatter();
 //		UserDTORest user = formatter.getUserByLogin("UserByLogin", userLogin);
@@ -64,7 +65,7 @@ public class EditUserController {
 //		URLFormatter formatterForUserUpdate = new URLFormatter();
 //		formatterForUserUpdate.updateUser(user);
 //		model.put("user", formatter.getUserByLogin("UserByLogin", userLogin));
-		model.put("user", service.getUserByLogin(userLogin));
+		
 		model.put("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
 	}
