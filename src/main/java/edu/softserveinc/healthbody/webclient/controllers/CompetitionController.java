@@ -74,6 +74,7 @@ public class CompetitionController {
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("getCompetition", service.getCompetitionViewById(idCompetition));
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
+		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		for (CompetitionDTO competition : service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin)) {
 			if (competition.getIdCompetition().equals(idCompetition)) {
 				return "leaveCompetition";
@@ -96,10 +97,8 @@ public class CompetitionController {
 		UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
 		userCompetition.setUserScore(stepCount);
 		service.updateUserCompetition(userCompetition);
-
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
-		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		return "userCabinet";
 	}
 
@@ -111,7 +110,6 @@ public class CompetitionController {
 		service.deleteUserCompetition(idCompetition, userLogin);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
-		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 		return "userCabinet";
 	}
@@ -147,6 +145,7 @@ public class CompetitionController {
 		service.addGroupInCompetition(idCompetition, idGroup);
 		model.addAttribute("idCompetition", idCompetition);
 		model.addAttribute("userLogin", userLogin);
+		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		return "redirect:/competition.html?idCompetition={idCompetition}&userLogin={userLogin}";
 	}
 
@@ -158,6 +157,7 @@ public class CompetitionController {
 		service.deleteGroupCompetition(idCompetition, idGroup);
 		model.addAttribute("idCompetition", idCompetition);
 		model.addAttribute("userLogin", userLogin);
+		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		return "redirect:/competition.html?idCompetition={idCompetition}&userLogin={userLogin}";
 	}
 
