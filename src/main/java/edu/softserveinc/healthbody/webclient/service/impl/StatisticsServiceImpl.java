@@ -26,6 +26,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 		Statistics statistics = new Statistics();
 		StatisticsMapper.toEntity(statisticsDTO, statistics);
 		statisticsRepository.save(statistics);
+		statisticsRepository.deleteAllInBatch();
 	}
 
 	@Override
@@ -54,5 +55,17 @@ public class StatisticsServiceImpl implements StatisticsService {
 	@Override
 	public Integer getUserStatisticsPerDate(String userLogin, String likeDate) {
 		return statisticsRepository.getCountLoginUserPerDate(userLogin, likeDate);
+	}
+	
+	@Override
+	public StatisticsDTO getUserForUpdate(String userLogin) {
+		StatisticsDTO statisticsDTO = new StatisticsDTO();
+		Statistics statistics = statisticsRepository.findUserForUpdate(userLogin);
+		if (statistics != null) {
+			StatisticsMapper.toDto(statisticsDTO, statistics);
+			return statisticsDTO;
+		} else {
+			return null;
+		}
 	}
 }

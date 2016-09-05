@@ -36,6 +36,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			HealthBodyService service = new HealthBodyServiceImplService().getHealthBodyServiceImplPort();
 			UserDTO userDTO = service.getUserByLogin(name);
 			if (userDTO != null && userDTO.getPassword().equals(password)) {
+				StatisticsDTO statisticsDTO = statisticsService.getUserForUpdate(name);
+				if (statisticsDTO != null) {
+					Date logoutDate = new Date(statisticsDTO.getLoginDate().getTime() + 600000);
+					statisticsService.updateStatistics(logoutDate, name);
+				}
 				statisticsService.addStatistics(new StatisticsDTO(null, name, new Date(), null));
 				return new UsernamePasswordAuthenticationToken(name, password, getAuthorities(userDTO));
 			} else {

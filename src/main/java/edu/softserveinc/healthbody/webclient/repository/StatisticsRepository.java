@@ -25,4 +25,7 @@ public interface StatisticsRepository extends JpaRepository<Statistics, Integer>
 	
 	@Query("select distinct s.userLogin from Statistics s")
 	List<String> getAllUsers();
+	
+	@Query("select s from Statistics s where s.userLogin = ?1 and s.logoutDate is null")
+	Statistics findUserForUpdate(String userLogin);
 }
