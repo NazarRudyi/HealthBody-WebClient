@@ -26,7 +26,6 @@ public class StatisticsServiceImpl implements StatisticsService {
 		Statistics statistics = new Statistics();
 		StatisticsMapper.toEntity(statisticsDTO, statistics);
 		statisticsRepository.save(statistics);
-		statisticsRepository.deleteAllInBatch();
 	}
 
 	@Override
