@@ -35,8 +35,9 @@ public class EditUserController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String saveEdit(@ModelAttribute("userToEdit") UserDTO userToEdit, Map<String, Object> model, 
-			@Autowired HealthBodyServiceImplService healthBody, BindingResult result) {
+			BindingResult result) {
 		userValidator.validate(userToEdit, result);
+		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.put("user", service.getUserByLogin(userLogin));
