@@ -14,6 +14,8 @@
 	async></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
+<!-- bootbox code -->
+<script src="resources/js/bootbox.min.js" async></script>
 
 <tiles:insertDefinition name="base-definition">
 	<tiles:putAttribute name="body">
@@ -28,7 +30,6 @@
 					<c:forEach items="${groups}" var="p">
 						<tr class="info">
 							<c:set var="check" value="false"/>
-							
 							<td><a
 								href="group.html?nameGroup=${p.idGroup}&userLogin=${user.login}">${p.name}</a>
 							</td>
@@ -37,14 +38,17 @@
 								<c:forEach items="${groupcompetitions}" var="t">
 									<c:if test="${t.idGroup == p.idGroup}">
 										<c:set var="check" value="true"/>
-
 									</c:if >
 								</c:forEach>
 								<c:choose>	
 							    	<c:when test="${check}"> 	
-										<a class="confirm btn btn-primary" type="submit" href=#>Leave
+							    	
+							    	<a class="confirm btn btn-primary" type="submit" href="leaveGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Leave
 													group from competition</a>
-										<c:set var="groupId" value="${p.idGroup}"/>	    	
+							    	
+								<!-- 	<a class="confirm btn btn-primary" type="submit" href=#>Leave
+													group from competition</a>
+										<c:set var="groupId" value="${p.idGroup}"/>	    	-->
 					    			</c:when> 
 								    <c:otherwise>						    	
 								    	<a class="btn btn-success" type="submit"
@@ -58,9 +62,7 @@
 				</tr>
 			</table>
 			
-			<!-- bootbox code -->
-			<script src="resources/js/bootbox.min.js" async></script>
-			<script>
+<!-- 		<script>
 				$(document).on("click", ".confirm", function(e) {
 			        bootbox.confirm("Are you sure?", function(result){ 
 							if (result) {
@@ -69,7 +71,7 @@
 							}
 					});
 			    });
-			</script>		
+			</script>		-->
 										
 		</div>
 		<div class="container" align="center">
