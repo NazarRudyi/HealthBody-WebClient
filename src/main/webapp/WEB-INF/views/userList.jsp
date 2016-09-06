@@ -9,14 +9,6 @@
 		<!--
 			function searchUsers() {
 				var log = document.getElementById('Search').value;
-				login = "";
-				firsName = "";
-				lastName = "";
-				age = "";
-				gender = "";
-				health = "";
-				score = "";
-				roleName = "";
 				var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/searchusers?login='
 						+ log
 				$
@@ -36,6 +28,7 @@
 												+ '</td></tr>';
 									});
 									document.getElementById('table').innerHTML = trHTML;
+									document.getElementById('pagination').innerHTML = "";
 								});
 			}
 		//-->
@@ -63,21 +56,21 @@
 				 <c:if test="${empty document.getElementById('Search').value}">
 					<c:forEach items="${AllUsers}" var="p">
 						<tr id="tr">
-							<td id="login">${p.login}</td>
-							<td id="firsName">${p.firstname}</td>
-							<td id="lastName">${p.lastname}</td>
-							<td id="age">${p.age}</td>
-							<td id="gender">${p.gender}</td>
-							<td id="health">${p.health}</td>
-							<td id="score">${p.score}</td>
-							<td id="roleName">${p.roleName}</td>
+							<td>${p.login}</td>
+							<td>${p.firstname}</td>
+							<td>${p.lastname}</td>
+							<td>${p.age}</td>
+							<td>${p.gender}</td>
+							<td>${p.health}</td>
+							<td>${p.score}</td>
+							<td>${p.roleName}</td>
 						</tr>
 					</c:forEach>
 				</c:if>
 			</table>
 		</div>
 		<div class="container" align="center">
-			<ul class="pagination">
+			<ul class="pagination" id="pagination">
 
 				<%--For displaying Previous link --%>
 				<li><c:if test="${currentPage != 1}">
