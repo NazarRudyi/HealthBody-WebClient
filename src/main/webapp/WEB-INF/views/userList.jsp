@@ -15,9 +15,9 @@
 						.getJSON(
 								url,
 								function(data) {
-									var trHTML = '<tr class="info"><th>Login</th><th>Name</th><th>Surname</th><th>Age</th><th>Gender :</th><th>Health :</th><th>Score :</th><th>Role :</th>';
+									var trHTML = '<tr class="info"><th>Login :</th><th>Name</th><th>Surname :</th><th>Age :</th><th>Gender :</th><th>Health :</th><th>Score :</th><th>Role :</th>';
 									$.each(data, function(i, item) {
-										trHTML += '<tr><td>' + item.login
+									trHTML +=     '<tr><td>' + item.login
 												+ '</td><td>' + item.firsName
 												+ '</td><td>' + item.lastName
 												+ '</td><td>' + item.age
@@ -42,12 +42,10 @@
 		</form>
 			<table class="table" id="table">
 				<tr class="info">
-					<th>Login</th>
-					<th>Name</th>
-					<th>Surname</th>
-					<!-- <th>E-mail :</th> -->
-					<th>Age</th>
-					<!-- <th>Weight :</th> -->
+					<th>Login :</th>
+					<th>Name :</th>
+					<th>Surname :</th>
+					<th>Age :</th>
 					<th>Gender :</th>
 					<th>Health :</th>
 					<th>Score :</th>
