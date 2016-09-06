@@ -125,6 +125,7 @@
 				</div>
 			</div>
 		</div>
+		<br>
 	</div>
 </tiles:putAttribute>
 </tiles:insertDefinition>
