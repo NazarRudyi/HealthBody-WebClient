@@ -4,6 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<link rel="icon"
+	href="https://d13yacurqjgara.cloudfront.net/users/678458/screenshots/1856046/h-icon.png">
+<!-- Bootstrap -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+	async></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
 
 <tiles:insertDefinition name="base-definition">
 	<tiles:putAttribute name="body">
@@ -17,33 +27,51 @@
 				<tr>
 					<c:forEach items="${groups}" var="p">
 						<tr class="info">
+							<c:set var="check" value="false"/>
+							
 							<td><a
 								href="group.html?nameGroup=${p.idGroup}&userLogin=${user.login}">${p.name}</a>
 							</td>
 							<td>${p.status}</td>
-
 							<td>
 								<c:forEach items="${groupcompetitions}" var="t">
-									<c:choose>
-										<c:when  test="${t.idGroup == p.idGroup}">
-											<a class="confirm btn btn-primary" type="submit"
-												href="leaveGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Leave
-													group from competition</a>
-										</c:when >
-										<c:otherwise>
-											<a class="btn btn-success" type="submit"
-												href="joinGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Join
-													group to competition</a>
-										</c:otherwise>
-									</c:choose>
+									<c:if test="${t.idGroup == p.idGroup}">
+										<c:set var="check" value="true"/>
+
+									</c:if >
 								</c:forEach>
+								<c:choose>	
+							    	<c:when test="${check}"> 	
+										<a class="confirm btn btn-primary" type="submit" href=#>Leave
+													group from competition</a>
+										<c:set var="groupId" value="${p.idGroup}"/>	    	
+					    			</c:when> 
+								    <c:otherwise>						    	
+								    	<a class="btn btn-success" type="submit"
+												href="joinGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Join
+													group to competition</a>				    	
+								    </c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 					</c:forEach>
 				</tr>
 			</table>
+			
+			<!-- bootbox code -->
+			<script src="resources/js/bootbox.min.js" async></script>
+			<script>
+				$(document).on("click", ".confirm", function(e) {
+			        bootbox.confirm("Are you sure?", function(result){ 
+							if (result) {
+								location.href = "leaveGroupCompetition.html?idGroup=${groupId}&idCompetition=${getCompetition.idCompetition}";
+							} else {
+							}
+					});
+			    });
+			</script>		
+										
 		</div>
-
 		<div class="container" align="center">
 			<ul class="pagination">
 
