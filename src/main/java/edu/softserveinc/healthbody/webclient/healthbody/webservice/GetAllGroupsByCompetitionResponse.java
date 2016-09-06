@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getAllActiveCompetitionsResponse complex type.
+ * <p>Java class for getAllGroupsByCompetitionResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="getAllActiveCompetitionsResponse">
+ * &lt;complexType name="getAllGroupsByCompetitionResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://webservice.healthbody.softserveinc.edu/}competitionDTO" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://webservice.healthbody.softserveinc.edu/}groupDTO" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,13 +29,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAllActiveCompetitionsResponse", propOrder = {
+@XmlType(name = "getAllGroupsByCompetitionResponse", propOrder = {
     "_return"
 })
-public class GetAllActiveCompetitionsResponse {
+public class GetAllGroupsByCompetitionResponse {
 
     @XmlElement(name = "return")
-    protected List<CompetitionDTO> _return;
+    protected List<GroupDTO> _return;
 
     /**
      * Gets the value of the return property.
@@ -55,13 +55,13 @@ public class GetAllActiveCompetitionsResponse {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link CompetitionDTO }
+     * {@link GroupDTO }
      * 
      * 
      */
-    public List<CompetitionDTO> getReturn() {
+    public List<GroupDTO> getReturn() {
         if (_return == null) {
-            _return = new ArrayList<CompetitionDTO>();
+            _return = new ArrayList<GroupDTO>();
         }
         return this._return;
     }

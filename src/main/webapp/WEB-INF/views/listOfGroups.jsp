@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-	
+
 <tiles:insertDefinition name="base-definition">
 	<tiles:putAttribute name="body">
 		<div class="container">
@@ -22,23 +22,22 @@
 							</td>
 							<td>${p.status}</td>
 
-							<c:forEach items="${groupcompetitions}" var="t">
-								<c:if test="${t.idGroup == p.idGroup}">
-									<c:set var="check" value="true" />
-								</c:if>
-							</c:forEach>
-							<c:choose>
-								<c:when test="${check}">
-									<td><a class="confirm btn btn-primary" type="submit"
-										href="leaveGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Leave
-											group from competition</a></td>	
-								</c:when>
-								<c:otherwise>
-									<td><a class="btn btn-success" type="submit"
-										href="joinGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Join
-											group to competition</a></td>
-								</c:otherwise>
-							</c:choose>
+							<td>
+								<c:forEach items="${groupcompetitions}" var="t">
+									<c:choose>
+										<c:when  test="${t.idGroup == p.idGroup}">
+											<a class="confirm btn btn-primary" type="submit"
+												href="leaveGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Leave
+													group from competition</a>
+										</c:when >
+										<c:otherwise>
+											<a class="btn btn-success" type="submit"
+												href="joinGroupCompetition.html?idGroup=${p.idGroup}&idCompetition=${getCompetition.idCompetition}">Join
+													group to competition</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</td>
 						</tr>
 					</c:forEach>
 				</tr>
