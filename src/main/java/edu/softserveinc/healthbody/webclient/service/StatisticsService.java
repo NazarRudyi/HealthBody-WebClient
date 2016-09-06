@@ -16,4 +16,6 @@ public interface StatisticsService {
 	void updateStatistics(Date logoutDate, String userLogin);
 	
 	Integer getUserStatisticsPerDate(String userLogin, String likeDate);
+	
+	StatisticsDTO getUserForUpdate(String userLogin);
 }

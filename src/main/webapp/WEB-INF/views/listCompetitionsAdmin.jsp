@@ -20,6 +20,7 @@
 				<th>Start Date :</th>
 				<th>Finish Date :</th>
 				<th></th>
+				<th></th>
 			</tr>
 			<c:forEach items="${getCompetitions}" var="p">
 				<tr class="info">
@@ -30,6 +31,8 @@
 					<td>${p.finishDate}</td>
 					<td><a class="btn btn-primary" type="submit"
 						href="editCompetition.html?idCompetition=${p.idCompetition}">Edit</a></td>
+					<td><a class="btn btn-success" type="submit"
+						href="listOfGroups.html?idCompetition=${p.idCompetition}">Join/leave groups</a></td>
 				</tr>
 			</c:forEach>
 		</table>

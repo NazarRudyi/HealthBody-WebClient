@@ -14,7 +14,7 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodySer
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 
 @Component
-public class CompetitionValidator implements Validator {
+public class CompetitionCreateValidator implements Validator {
 
 	public boolean supports(Class<?> clazz) {
 		return CompetitionDTO.class.isAssignableFrom(clazz);

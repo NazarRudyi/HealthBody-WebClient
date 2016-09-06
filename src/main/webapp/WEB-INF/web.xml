@@ -30,4 +30,7 @@
     <servlet-name>googleTest</servlet-name>
     <url-pattern>/googleTest</url-pattern>
   </servlet-mapping>
+  	<session-config>
+  	<session-timeout>10</session-timeout>
+  </session-config>
 </web-app>

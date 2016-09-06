@@ -8,7 +8,7 @@
 	<tiles:putAttribute name="body">
 	<div class="container">
 		<form:form action="editUser.html" method="POST"
-			commandName="userToEdit">
+			commandName="user">
 			<table class="table">
 				<tr class="info">
 					<td><form:label path="login">Login:</form:label></td>
@@ -17,18 +17,22 @@
 				<tr class="info">
 					<td><form:label path="firstname">Name:</form:label></td>
 					<td><form:input path="firstname" /></td>
+					<td><form:errors path="firstname" class="error" style="color:red;"/></td>
 				</tr>
 				<tr class="info">
 					<td><form:label path="lastname">SurName</form:label></td>
 					<td><form:input path="lastname" /></td>
+					<td><form:errors path="lastname" class="error" style="color:red;"/></td>
 				</tr>
 				<tr class="info">
 					<td><form:label path="age">Age</form:label></td>
 					<td><form:input path="age" /></td>
+					<td><form:errors path="age" class="error" style="color:red;"/></td>
 				</tr>
 				<tr class="info">
 					<td><form:label path="weight">Weight</form:label></td>
 					<td><form:input path="weight" /></td>
+					<td><form:errors path="weight" class="error" style="color:red;"/></td>
 				</tr>
 				<tr class="info">
 					<td><form:radiobutton path="gender" value="male" />Male</td>
