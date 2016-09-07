@@ -1,5 +1,6 @@
 package edu.softserveinc.healthbody.webclient.controllers;
 
+import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
+import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetitionsDTO;
@@ -143,6 +145,17 @@ public class CompetitionController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		service.addGroupInCompetition(idCompetition, idGroup);
+		
+		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
+		for(GroupDTO group : listgroups) {
+			if(group.getIdGroup().equals(idGroup)) {
+				for(String login : group.getUsers()) {
+					if(service.getUserCompetition(idCompetition, login) == null) {
+						service.addUserInCompetition(idCompetition, login);
+					}
+				}
+			}
+		}
 		model.addAttribute("idCompetition", idCompetition);
 		model.addAttribute("userLogin", userLogin);
 		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
