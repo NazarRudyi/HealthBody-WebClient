@@ -151,7 +151,7 @@ public class CompetitionController {
 			if(group.getIdGroup().equals(idGroup)) {
 				for(String login : group.getUsers()) {
 					if(service.getUserCompetition(idCompetition, login) == null) {
-						service.addUserInCompetition(idCompetition, login);
+						service.addUserInCompetitionView(idCompetition, login);
 					}
 				}
 			}
