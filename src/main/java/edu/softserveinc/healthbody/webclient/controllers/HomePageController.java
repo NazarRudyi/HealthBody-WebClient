@@ -12,14 +12,14 @@ import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 public class HomePageController {
 			
 	@RequestMapping("/homePage.html")
-	public String homePage(@Autowired HealthBodyServiceImplService healthBody) {
-		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
-		GoogleFitUtils.updateUsersScoresInCompetition(service);
+	public String homePage() {
 		return "homePage";
 	}
 	
 	@RequestMapping("/login.html")
-	public String login() {
+	public String login(@Autowired HealthBodyServiceImplService healthBody) {
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		GoogleFitUtils.updateUsersScoresInCompetition(service);
 		return "login";
 	}
 }
