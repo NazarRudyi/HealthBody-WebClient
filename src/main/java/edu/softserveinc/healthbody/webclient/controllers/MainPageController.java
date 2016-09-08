@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
+import edu.softserveinc.healthbody.webclient.utils.FitData;
 import lombok.extern.slf4j.Slf4j;
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.OpenWeatherMap;
@@ -34,8 +35,8 @@ public class MainPageController {
 	@RequestMapping(value = "/main.html", method = RequestMethod.GET)
 	public String getListCurrentCompetitions(Model model, @Autowired HealthBodyServiceImplService healthBody,
 			@RequestParam(value = "partNumber", required = false) Integer partNumber, HttpServletRequest request) {
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		try {
-			HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 
 			int n = service.getAllActiveCompetitions(1, Integer.MAX_VALUE).size();
 			int lastPartNumber = (int) Math.ceil(n * 1.0 / COMPETITIONS_PER_PAGE);
@@ -89,6 +90,7 @@ public class MainPageController {
 		} catch (IOException e1) {
 			log.error("IOException", e1);
 		}
+		FitData.getInstanse().updateUsersScoresInCompetition(service);
 		return "main";
 	}
 

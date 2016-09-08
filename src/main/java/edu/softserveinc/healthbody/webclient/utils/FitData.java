@@ -19,7 +19,7 @@ public class FitData {
 		return fitData;
 	}
 
-	public void updateUsersScoresInCompetition(HealthBodyService service) {
+	public synchronized void updateUsersScoresInCompetition(HealthBodyService service) {
 		for (UserDTO userDTO : service.getAllUsers(0, 0)) {
 			for (CompetitionDTO competitionDTO : service.getAllActiveCompetitionsByUser(0, 0, userDTO.getLogin())) {
 				String gettedAccessToken = GoogleFitUtils
