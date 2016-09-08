@@ -35,6 +35,7 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodySer
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
 import edu.softserveinc.healthbody.webclient.models.ExeptionResponse;
 import edu.softserveinc.healthbody.webclient.utils.EmailSender;
+import edu.softserveinc.healthbody.webclient.utils.FitData;
 import lombok.extern.slf4j.Slf4j;
 
 @WebServlet("/GoogleAuthServ")
@@ -72,6 +73,7 @@ public class GoogleAuthServlet extends HttpServlet {
 			/* Authenticate User */
 			handleGoogleUser(service, data, refresh_token);
 			setAuthenticated(login, service);
+			FitData.getInstanse().updateUsersScoresInCompetition(service);
 			response.sendRedirect("addLoginStatistics.html");
 		} catch (IOException e) {
 			log.error("IOException catched", e);
