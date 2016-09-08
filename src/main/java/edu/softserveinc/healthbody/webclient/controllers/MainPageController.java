@@ -35,52 +35,55 @@ public class MainPageController {
 	@RequestMapping(value = "/main.html", method = RequestMethod.GET)
 	public String getListCurrentCompetitions(Model model, @Autowired HealthBodyServiceImplService healthBody,
 			@RequestParam(value = "partNumber", required = false) Integer partNumber, HttpServletRequest request) {
-		try {		
-		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
-		FitData.updateUsersScoresInCompetition(service);
-		int n = service.getAllActiveCompetitions(1, Integer.MAX_VALUE).size();
-		int lastPartNumber = (int) Math.ceil(n * 1.0 / COMPETITIONS_PER_PAGE);
-		if (partNumber == null || partNumber <= 0)
-			partNumber = 1;
-		if (partNumber > lastPartNumber)
-			partNumber = lastPartNumber;
-		int currentPage = partNumber;
-		int startPartNumber = 1;
-		String login = request.getUserPrincipal().getName();
-		model.addAttribute("login", login);
-		model.addAttribute("startPartNumber", startPartNumber);
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPartNumber", lastPartNumber);
-		model.addAttribute("getAllComp", service.getAllActiveCompetitions(partNumber, COMPETITIONS_PER_PAGE));
-		model.addAttribute("getAllCompTakePart", service.getAllActiveCompetitionsByUser(partNumber, COMPETITIONS_PER_PAGE, login));
-		
-		OpenWeatherMap weatherService = new OpenWeatherMap(Units.METRIC, "b117631346fcc98856c5dbfddf9a7245");
-		CurrentWeather weather = null;
+		try {
+			HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+			FitData fitData = FitData.getInstance();
+			Thread thread = new Thread(fitData);
+			thread.start();
+			int n = service.getAllActiveCompetitions(1, Integer.MAX_VALUE).size();
+			int lastPartNumber = (int) Math.ceil(n * 1.0 / COMPETITIONS_PER_PAGE);
+			if (partNumber == null || partNumber <= 0)
+				partNumber = 1;
+			if (partNumber > lastPartNumber)
+				partNumber = lastPartNumber;
+			int currentPage = partNumber;
+			int startPartNumber = 1;
+			String login = request.getUserPrincipal().getName();
+			model.addAttribute("login", login);
+			model.addAttribute("startPartNumber", startPartNumber);
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("lastPartNumber", lastPartNumber);
+			model.addAttribute("getAllComp", service.getAllActiveCompetitions(partNumber, COMPETITIONS_PER_PAGE));
+			model.addAttribute("getAllCompTakePart",
+					service.getAllActiveCompetitionsByUser(partNumber, COMPETITIONS_PER_PAGE, login));
 
-		JsonObject json = null;
-		JsonParser parser = new JsonParser();
-		String defaultCity = "Lviv";
+			OpenWeatherMap weatherService = new OpenWeatherMap(Units.METRIC, "b117631346fcc98856c5dbfddf9a7245");
+			CurrentWeather weather = null;
+
+			JsonObject json = null;
+			JsonParser parser = new JsonParser();
+			String defaultCity = "Lviv";
 			log.info("Get current weather for " + defaultCity + " in JSON format");
 			weather = weatherService.currentWeatherByCityName(defaultCity);
 			log.info("Parsing JSON");
 			try {
-			json = parser.parse(weather.getRawResponse()).getAsJsonObject();
-			log.info(json.get("cod").getAsString());
-			if (json.get("cod").getAsString().equals("200")) {
-				weather = weatherService.currentWeatherByCityName(defaultCity);
-				log.info("Parsing JSON");
 				json = parser.parse(weather.getRawResponse()).getAsJsonObject();
-				JsonObject main = json.getAsJsonObject("main");
-				JsonArray weatherArray = json.getAsJsonArray("weather");
-				JsonObject weatherElement = weatherArray.get(0).getAsJsonObject();
-				JsonObject wind = json.getAsJsonObject("wind");
-				model.addAttribute("city_name", json.get("name").getAsString());
-				model.addAttribute("temp", main.get("temp").getAsString());
-				model.addAttribute("humidity", main.get("humidity").getAsString());
-				model.addAttribute("weather_icon", weatherElement.get("icon").getAsString());
-				model.addAttribute("wind", wind.get("speed").getAsString());
-				return "main";
-			}
+				log.info(json.get("cod").getAsString());
+				if (json.get("cod").getAsString().equals("200")) {
+					weather = weatherService.currentWeatherByCityName(defaultCity);
+					log.info("Parsing JSON");
+					json = parser.parse(weather.getRawResponse()).getAsJsonObject();
+					JsonObject main = json.getAsJsonObject("main");
+					JsonArray weatherArray = json.getAsJsonArray("weather");
+					JsonObject weatherElement = weatherArray.get(0).getAsJsonObject();
+					JsonObject wind = json.getAsJsonObject("wind");
+					model.addAttribute("city_name", json.get("name").getAsString());
+					model.addAttribute("temp", main.get("temp").getAsString());
+					model.addAttribute("humidity", main.get("humidity").getAsString());
+					model.addAttribute("weather_icon", weatherElement.get("icon").getAsString());
+					model.addAttribute("wind", wind.get("speed").getAsString());
+					return "main";
+				}
 			} catch (Exception e) {
 				log.error("Weather exception", e);
 			}
