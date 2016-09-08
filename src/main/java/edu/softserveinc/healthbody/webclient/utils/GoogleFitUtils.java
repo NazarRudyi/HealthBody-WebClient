@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -19,6 +20,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.softserveinc.healthbody.webclient.constants.GoogleConstants;
+import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
+import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
+import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetitionsDTO;
+import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -122,5 +127,24 @@ public class GoogleFitUtils {
 		log.info("Your steps count :" + stepCount);
 		return stepCount;
 
+	}
+
+	public static void updateUsersScoresInCompetition(HealthBodyService service) {
+		List<UserDTO> users = service.getAllUsers(0, 0);
+		for (UserDTO userDTO : users) {
+			List<CompetitionDTO> competitions = service.getAllActiveCompetitionsByUser(0, 0, userDTO.getLogin());
+			for (CompetitionDTO competitionDTO : competitions) {
+				String gettedAccessToken = GoogleFitUtils
+						.postForAccessToken(service.getUserByLogin(userDTO.getLogin()).getGoogleApi());
+				Long startTime = CustomDateFormater.getDateInMilliseconds(
+						service.getCompetitionViewById(competitionDTO.getIdCompetition()).getStartDate());
+				String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
+				String stepCount = GoogleFitUtils.getStepCount(fitData);
+				UserCompetitionsDTO userCompetition = service.getUserCompetition(competitionDTO.getIdCompetition(),
+						userDTO.getLogin());
+				userCompetition.setUserScore(stepCount);
+				service.updateUserCompetition(userCompetition);
+			}
+		}
 	}
 }

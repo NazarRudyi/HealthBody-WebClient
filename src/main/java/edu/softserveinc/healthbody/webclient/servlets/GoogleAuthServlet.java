@@ -30,13 +30,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.softserveinc.healthbody.webclient.constants.GoogleConstants;
-import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
-import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetitionsDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
 import edu.softserveinc.healthbody.webclient.models.ExeptionResponse;
-import edu.softserveinc.healthbody.webclient.utils.CustomDateFormater;
 import edu.softserveinc.healthbody.webclient.utils.EmailSender;
 import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +73,7 @@ public class GoogleAuthServlet extends HttpServlet {
 			/* Authenticate User */
 			handleGoogleUser(service, data, refresh_token);
 			setAuthenticated(login, service);
-			updateUsersScoresInCompetition(service);
+			GoogleFitUtils.updateUsersScoresInCompetition(service);
 			response.sendRedirect("addLoginStatistics.html");
 		} catch (IOException e) {
 			log.error("IOException catched", e);
@@ -183,26 +180,6 @@ public class GoogleAuthServlet extends HttpServlet {
 		}
 		log.info(outputString + rn);
 		return outputString;
-	}
-
-	private void updateUsersScoresInCompetition(HealthBodyService service) {
-		List<UserDTO> users = service.getAllUsers(0, 0);
-		for (UserDTO userDTO : users) {
-			List<CompetitionDTO> competitions = service.getAllActiveCompetitionsByUser(0, 0, userDTO.getLogin());
-			for (CompetitionDTO competitionDTO : competitions) {
-				String gettedAccessToken = GoogleFitUtils
-						.postForAccessToken(service.getUserByLogin(userDTO.getLogin()).getGoogleApi());
-				Long startTime = CustomDateFormater.getDateInMilliseconds(
-						service.getCompetitionViewById(competitionDTO.getIdCompetition()).getStartDate());
-				String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
-				String stepCount = GoogleFitUtils.getStepCount(fitData);
-				UserCompetitionsDTO userCompetition = service.getUserCompetition(competitionDTO.getIdCompetition(),
-						userDTO.getLogin());
-				userCompetition.setUserScore(stepCount);
-				service.updateUserCompetition(userCompetition);
-			}
-		}
-
 	}
 
 	@Override
