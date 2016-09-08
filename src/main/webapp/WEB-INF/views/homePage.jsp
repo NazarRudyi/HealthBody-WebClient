@@ -12,32 +12,12 @@
 
 <link href="resources/css/full-slider.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
-	async></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
-<style media="screen" type="text/css">
-.loader {
-	position: fixed;
-	left: 0px;
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	z-index: 9999;
-	background: url('images/page-loader.gif') 50% 50% no-repeat
-		rgb(249, 249, 249);
-}
-</style>
-<script type="text/javascript">
-	$(window).load(function() {
-		$(".loader").fadeOut("slow");
-	})
-</script>
+	<script  type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" async></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script  type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
 </head>
 <body>
-	<div class="loader"></div>
-
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
@@ -90,8 +70,7 @@
 			data-slide="next"> <span class="icon-next"></span>
 		</a>
 		<footer>
-			<p class="site-info">&copy; Lv-185 Java, 2016 softserve IT
-				Academy, Inc.</p>
+			<p class="site-info">&copy; Lv-185 Java, 2016 softserve IT Academy, Inc.</p>
 		</footer>
 	</div>
 </body>
