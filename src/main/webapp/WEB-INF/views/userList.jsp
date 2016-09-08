@@ -10,7 +10,7 @@
 			function searchUsers() {
 				var log = document.getElementById('Search').value;
 				var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/searchusers?login='
-						+ log
+						+ log.toLowerCase();
 				$
 						.getJSON(
 								url,
