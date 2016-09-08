@@ -6,29 +6,14 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodySer
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetitionsDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
 
-public class FitData implements Runnable {
-	public static FitData fitData = null;
+public class FitData {
 
-	private FitData() {
-
-	}
-
-	public static FitData getInstance() {
-		if (fitData == null) {
-			synchronized (FitData.class) {
-				if (fitData == null) {
-					fitData = new FitData();
-				}
-			}
-		}
-		return fitData;
-	}
-
-	public synchronized void updateUsersScoresInCompetition() {
+	public static void updateUsersScoresInCompetition() {
 
 		HealthBodyService service = new HealthBodyServiceImplService().getHealthBodyServiceImplPort();
-		for (UserDTO userDTO : service.getAllUsers(0, 0)) {
-			for (CompetitionDTO competitionDTO : service.getAllActiveCompetitionsByUser(0, 0, userDTO.getLogin())) {
+		for (UserDTO userDTO : service.getAllUsers(1, Integer.MAX_VALUE)) {
+			for (CompetitionDTO competitionDTO : service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE,
+					userDTO.getLogin())) {
 				String gettedAccessToken = GoogleFitUtils
 						.postForAccessToken(service.getUserByLogin(userDTO.getLogin()).getGoogleApi());
 				Long startTime = CustomDateFormater.getDateInMilliseconds(
@@ -43,9 +28,4 @@ public class FitData implements Runnable {
 		}
 	}
 
-	@Override
-	public void run() {
-		this.updateUsersScoresInCompetition();
-
-	}
 }
