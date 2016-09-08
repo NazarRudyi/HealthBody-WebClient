@@ -90,7 +90,9 @@ public class MainPageController {
 		} catch (IOException e1) {
 			log.error("IOException", e1);
 		}
-		 new FitData().updateUsersScoresInCompetition(service);
+		 FitData fitData = FitData.getInstance();
+		 Thread thread = new Thread(fitData);
+		 thread.start();
 		return "main";
 	}
 
