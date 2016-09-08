@@ -128,7 +128,7 @@ public class GoogleFitUtils {
 
 	}
 
-	public static void updateUsersScoresInCompetition(HealthBodyService service) {
+	public void updateUsersScoresInCompetition(HealthBodyService service) {
 		for (UserDTO userDTO : service.getAllUsers(0, 0)) {
 			for (CompetitionDTO competitionDTO : service.getAllActiveCompetitionsByUser(0, 0, userDTO.getLogin())) {
 				String gettedAccessToken = GoogleFitUtils
