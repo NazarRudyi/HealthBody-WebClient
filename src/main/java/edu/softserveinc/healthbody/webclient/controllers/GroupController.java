@@ -1,6 +1,7 @@
 package edu.softserveinc.healthbody.webclient.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
+import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 import edu.softserveinc.healthbody.webclient.validator.GroupValidator;
 
 @Controller
@@ -89,6 +91,22 @@ public class GroupController {
 				test = true;
 			}
 		}
+		
+		Integer scoreGroup = 0;
+		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
+		for (GroupDTO groupdto : listgroups) {
+			if (groupdto.getIdGroup().equals(nameGroup)) {
+				for (String login : groupdto.getUsers()) {
+					String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
+					Long startTime = (System.currentTimeMillis()-24*60*60*1000);
+					String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
+					String stepCount = GoogleFitUtils.getStepCount(fitData);
+					Integer steps = Integer.parseInt(stepCount);
+					scoreGroup = scoreGroup + steps;
+				}
+			}
+		}
+		groupDTO.setScoreGroup(scoreGroup.toString());
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("group", groupDTO);
 		if (test) {
