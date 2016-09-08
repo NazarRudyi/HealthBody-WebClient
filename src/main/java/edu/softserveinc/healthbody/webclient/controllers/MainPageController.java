@@ -47,7 +47,7 @@ public class MainPageController {
 		int currentPage = partNumber;
 		int startPartNumber = 1;
 		String login = request.getUserPrincipal().getName();
-		GoogleFitUtils.updateUsersScoresInCompetition(service);
+		/*GoogleFitUtils.updateUsersScoresInCompetition(service);*/
 		model.addAttribute("login", login);
 		model.addAttribute("startPartNumber", startPartNumber);
 		model.addAttribute("currentPage", currentPage);
