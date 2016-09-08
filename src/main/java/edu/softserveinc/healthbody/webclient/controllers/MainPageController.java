@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
+import edu.softserveinc.healthbody.webclient.utils.FitData;
 import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.aksingh.owmjapis.CurrentWeather;
@@ -82,6 +83,7 @@ public class MainPageController {
 					model.addAttribute("wind", wind.get("speed").getAsString());
 					/*GoogleFitUtils googleFitUtils = new GoogleFitUtils();
 					googleFitUtils.updateUsersScoresInCompetition(service);*/
+					FitData.getInstanse().updateUsersScoresInCompetition(service);
 					return "main";
 				}
 			} catch (Exception e) {
