@@ -16,6 +16,7 @@
 								url,
 								function(data) {
 									var trHTML = '<tr class="info"><th>Login :</th><th>Name :</th><th>Surname :</th><th>Age :</th><th>Gender :</th><th>Health :</th><th>Score :</th><th>Role :</th>';
+									if(data.length) {
 									$.each(data, function(i, item) {
 									trHTML +=     '<tr><td>' + item.login
 												+ '</td><td>' + item.firsName
@@ -29,6 +30,10 @@
 									});
 									document.getElementById('table').innerHTML = trHTML;
 									document.getElementById('pagination').innerHTML = "";
+									} else {
+										document.getElementById('table').innerHTML = "No Data to show :(";
+										document.getElementById('pagination').innerHTML = "";
+									}
 								});
 			}
 		//-->
