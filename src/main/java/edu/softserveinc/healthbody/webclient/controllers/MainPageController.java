@@ -37,7 +37,7 @@ public class MainPageController {
 			@RequestParam(value = "partNumber", required = false) Integer partNumber, HttpServletRequest request) {
 		try {		
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
-		/*FitData.updateUsersScoresInCompetition(service);*/
+		FitData.updateUsersScoresInCompetition(service);
 		int n = service.getAllActiveCompetitions(1, Integer.MAX_VALUE).size();
 		int lastPartNumber = (int) Math.ceil(n * 1.0 / COMPETITIONS_PER_PAGE);
 		if (partNumber == null || partNumber <= 0)
