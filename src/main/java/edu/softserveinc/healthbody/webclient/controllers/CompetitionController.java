@@ -79,6 +79,15 @@ public class CompetitionController {
 		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		for (CompetitionDTO competition : service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin)) {
 			if (competition.getIdCompetition().equals(idCompetition)) {
+				String gettedAccessToken = GoogleFitUtils
+						.postForAccessToken(service.getUserByLogin(userLogin).getGoogleApi());
+				Long startTime = CustomDateFormater
+						.getDateInMilliseconds(service.getCompetitionViewById(idCompetition).getStartDate());
+				String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
+				String stepCount = GoogleFitUtils.getStepCount(fitData);
+				UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
+				userCompetition.setUserScore(stepCount);
+				service.updateUserCompetition(userCompetition);
 				return "leaveCompetition";
 			}
 		}
@@ -115,10 +124,11 @@ public class CompetitionController {
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 		return "userCabinet";
 	}
-	
+
 	@RequestMapping(value = "/listOfGroups.html", method = RequestMethod.GET)
 	public String getListCurrentGroups(Model model, @Autowired HealthBodyServiceImplService healthBody,
-			String idCompetition, @RequestParam(value = "partNumber", required = false) Integer partNumber, HttpServletRequest request) {
+			String idCompetition, @RequestParam(value = "partNumber", required = false) Integer partNumber,
+			HttpServletRequest request) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		int startPartNumber = 1;
@@ -138,19 +148,19 @@ public class CompetitionController {
 		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		return "listOfGroups";
 	}
-	
+
 	@RequestMapping(value = "/joinGroupCompetition.html", method = RequestMethod.GET)
-	public String joinCompetition(Model model, @Autowired HealthBodyServiceImplService healthBody,
-			String idCompetition, String idGroup) {
+	public String joinCompetition(Model model, @Autowired HealthBodyServiceImplService healthBody, String idCompetition,
+			String idGroup) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		service.addGroupInCompetition(idCompetition, idGroup);
-		
+
 		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
-		for(GroupDTO group : listgroups) {
-			if(group.getIdGroup().equals(idGroup)) {
-				for(String login : group.getUsers()) {
-					if(service.getUserCompetition(idCompetition, login) == null) {
+		for (GroupDTO group : listgroups) {
+			if (group.getIdGroup().equals(idGroup)) {
+				for (String login : group.getUsers()) {
+					if (service.getUserCompetition(idCompetition, login) == null) {
 						service.addUserInCompetitionView(idCompetition, login);
 					}
 				}
