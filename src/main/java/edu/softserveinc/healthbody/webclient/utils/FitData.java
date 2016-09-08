@@ -15,7 +15,11 @@ public class FitData implements Runnable {
 
 	public static FitData getInstance() {
 		if (fitData == null) {
-			fitData = new FitData();
+			synchronized (FitData.class) {
+				if (fitData == null) {
+					fitData = new FitData();
+				}
+			}
 		}
 		return fitData;
 	}
