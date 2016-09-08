@@ -90,7 +90,7 @@ public class MainPageController {
 		} catch (IOException e1) {
 			log.error("IOException", e1);
 		}
-		FitData.getInstanse().updateUsersScoresInCompetition(service);
+		 new FitData().updateUsersScoresInCompetition(service);
 		return "main";
 	}
 

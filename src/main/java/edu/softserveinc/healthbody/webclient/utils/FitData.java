@@ -6,18 +6,6 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetiti
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
 
 public class FitData {
-	private static FitData fitData = null;
-
-	public static FitData getInstanse() {
-		if (fitData == null) {
-			synchronized (FitData.class) {
-				if (fitData == null) {
-					fitData = new FitData();
-				}
-			}
-		}
-		return fitData;
-	}
 
 	public synchronized void updateUsersScoresInCompetition(HealthBodyService service) {
 		for (UserDTO userDTO : service.getAllUsers(0, 0)) {
