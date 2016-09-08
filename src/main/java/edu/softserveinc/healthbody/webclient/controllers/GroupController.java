@@ -93,9 +93,11 @@ public class GroupController {
 		}
 		
 		Integer scoreGroup = 0;
+		Integer size = 0;
 		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
 		for (GroupDTO groupdto : listgroups) {
 			if (groupdto.getIdGroup().equals(nameGroup)) {
+				size = groupdto.getUsers().size();
 				for (String login : groupdto.getUsers()) {
 					String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
 					Long startTime = (System.currentTimeMillis()-30*24*60*60*1000);
@@ -104,10 +106,10 @@ public class GroupController {
 					Integer steps = Integer.parseInt(stepCount);
 					scoreGroup = scoreGroup + steps;
 				}
-				scoreGroup = scoreGroup/30/groupdto.getUsers().size();
 			}
 		}
-		groupDTO.setScoreGroup(scoreGroup.toString());
+		Integer averagescore = scoreGroup/30/size;
+		groupDTO.setScoreGroup(averagescore.toString());
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("group", groupDTO);
 		if (test) {
