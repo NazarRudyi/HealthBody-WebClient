@@ -80,8 +80,8 @@ public class MainPageController {
 					model.addAttribute("humidity", main.get("humidity").getAsString());
 					model.addAttribute("weather_icon", weatherElement.get("icon").getAsString());
 					model.addAttribute("wind", wind.get("speed").getAsString());
-					GoogleFitUtils googleFitUtils = new GoogleFitUtils();
-					googleFitUtils.updateUsersScoresInCompetition(service);
+					/*GoogleFitUtils googleFitUtils = new GoogleFitUtils();
+					googleFitUtils.updateUsersScoresInCompetition(service);*/
 					return "main";
 				}
 			} catch (Exception e) {
