@@ -100,14 +100,14 @@ public class CompetitionController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		service.addUserInCompetitionView(idCompetition, userLogin);
-	/*	String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(userLogin).getGoogleApi());
+		String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(userLogin).getGoogleApi());
 		Long startTime = CustomDateFormater
 				.getDateInMilliseconds(service.getCompetitionViewById(idCompetition).getStartDate());
 		String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
 		String stepCount = GoogleFitUtils.getStepCount(fitData);
 		UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
 		userCompetition.setUserScore(stepCount);
-		service.updateUserCompetition(userCompetition);*/
+		service.updateUserCompetition(userCompetition);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
