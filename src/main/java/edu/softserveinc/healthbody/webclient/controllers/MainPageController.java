@@ -83,7 +83,6 @@ public class MainPageController {
 					model.addAttribute("wind", wind.get("speed").getAsString());
 					/*GoogleFitUtils googleFitUtils = new GoogleFitUtils();
 					googleFitUtils.updateUsersScoresInCompetition(service);*/
-					FitData.getInstanse().updateUsersScoresInCompetition(service);
 					return "main";
 				}
 			} catch (Exception e) {
