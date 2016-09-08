@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page isELIgnored="false" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <html>
@@ -14,22 +15,41 @@
 <!-- Bootstrap -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script  type="text/javascript"
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" async></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script  type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+	async></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
+<style type="text/css">
+.loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('images/page-loader.gif') 50% 50% no-repeat
+		rgb(249, 249, 249);
+}
+</style>
+<script type="text/javascript">
+	$(window).load(function() {
+		$(".loader").fadeOut("slow");
+	})
+</script>
 </head>
 <body>
-        <section id="sidemenu">
-            <tiles:insertAttribute name="menu" />
-        </section>
-             
-        <section id="site-content">
-            <tiles:insertAttribute name="body" />
-        </section>
-         
-        <footer id="footer">
-            <tiles:insertAttribute name="footer" />
-        </footer>
+	<div class="loader"></div>
+	<section id="sidemenu">
+		<tiles:insertAttribute name="menu" />
+	</section>
+
+	<section id="site-content">
+		<tiles:insertAttribute name="body" />
+	</section>
+
+	<footer id="footer">
+		<tiles:insertAttribute name="footer" />
+	</footer>
 </body>
 </html>
