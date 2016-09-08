@@ -98,12 +98,13 @@ public class GroupController {
 			if (groupdto.getIdGroup().equals(nameGroup)) {
 				for (String login : groupdto.getUsers()) {
 					String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
-					Long startTime = (System.currentTimeMillis()-24*60*60*1000);
+					Long startTime = (System.currentTimeMillis()-30*24*60*60*1000);
 					String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
 					String stepCount = GoogleFitUtils.getStepCount(fitData);
 					Integer steps = Integer.parseInt(stepCount);
 					scoreGroup = scoreGroup + steps;
 				}
+				scoreGroup = scoreGroup/30/groupdto.getUsers().size();
 			}
 		}
 		groupDTO.setScoreGroup(scoreGroup.toString());
