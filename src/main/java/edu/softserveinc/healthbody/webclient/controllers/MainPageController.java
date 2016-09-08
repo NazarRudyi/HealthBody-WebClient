@@ -20,7 +20,6 @@ import com.google.gson.JsonParser;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
-import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.OpenWeatherMap;
@@ -47,7 +46,7 @@ public class MainPageController {
 		int currentPage = partNumber;
 		int startPartNumber = 1;
 		String login = request.getUserPrincipal().getName();
-		GoogleFitUtils.updateUsersScoresInCompetition(service);
+		/*GoogleFitUtils.updateUsersScoresInCompetition(service);*/
 		model.addAttribute("login", login);
 		model.addAttribute("startPartNumber", startPartNumber);
 		model.addAttribute("currentPage", currentPage);
