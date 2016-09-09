@@ -104,7 +104,7 @@
 				<li>
 				  <a>
 					<form>
-		 				<select name=perPage title='show on the page' onchange='if (this.form) this.form.submit();'>
+		 				<select class=small name=perPage title='show on the page' onchange='if (this.form) this.form.submit();'>
 		 					<c:forEach items="${partSize}" var="partSize">
 		 						<c:choose>
 		 							<c:when test="${partSize != perPage}">

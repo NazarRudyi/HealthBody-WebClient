@@ -20,7 +20,7 @@ public class UsersController {
 	@RequestMapping(value = "/userlist.html", method = RequestMethod.GET)
 	public String getUserList(Model model, @Autowired HealthBodyServiceImplService healthBody,
 			@RequestParam(value = "partNumber", required = false) Integer partNumber,
-			@RequestParam(value = "per", required = false) Integer perPage) {
+			@RequestParam(value = "perPage", required = false) Integer perPage) {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		if (perPage == null || perPage <= 0) {
 			perPage = USERS_PER_PAGE;
