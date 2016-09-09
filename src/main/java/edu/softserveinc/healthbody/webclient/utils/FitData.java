@@ -12,8 +12,8 @@ public class FitData {
 	public static void updateUsersScoresInCompetition(HealthBodyService service, String login) {
 
 		List<String> competitionsIds = getAllCompetitionsIds(service, login);
+		String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
 		for (String competitionId : competitionsIds) {
-			String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
 			Long startTime = CustomDateFormater
 					.getDateInMilliseconds(service.getCompetitionViewById(competitionId).getStartDate());
 			String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
