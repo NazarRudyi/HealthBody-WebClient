@@ -79,7 +79,8 @@
 				<li><c:if test="${currentPage != 1}">
 						<a
 							href="<c:url value="/userlist.html" >
-        <c:param name="partNumber" value="${currentPage - 1}"/>${p}</c:url>">«</a>
+        <c:param name="partNumber" value="${currentPage - 1}"/>
+        <c:param name="perPage" value="${perPage}"/>${p}</c:url>">«</a>
 					</c:if></li>
 
 				<%--For displaying Page numbers --%>
@@ -87,15 +88,37 @@
 						end="${lastPartNumber}" var="p">
 						<a
 							href="<c:url value="/userlist.html" >
-        <c:param name="partNumber" value="${p}"/>${p}</c:url>">${p}</a>
+        <c:param name="partNumber" value="${p}"/>
+        <c:param name="perPage" value="${perPage}"/>${p}</c:url>">${p}</a>
 					</c:forEach></li>
 
 				<%--For displaying Next link --%>
 				<li><c:if test="${currentPage lt lastPartNumber}">
 						<a
 							href="<c:url value="/userlist.html" >
-        <c:param name="partNumber" value="${currentPage + 1}"/>${p}</c:url>">»</a>
+        <c:param name="partNumber" value="${currentPage + 1}"/>
+        <c:param name="perPage" value="${perPage}"/>${p}</c:url>">»</a>
 					</c:if></li>
+			</ul>
+			<ul class="pagination" id="pagination">
+				<li>
+				  <a>
+					<form>
+		 				<select class=small name=perPage title='show on the page' onchange='if (this.form) this.form.submit();'>
+		 					<c:forEach items="${partSize}" var="partSize">
+		 						<c:choose>
+		 							<c:when test="${partSize != perPage}">
+		 								<option value="${partSize}">${partSize}
+		 							</c:when>
+		 							<c:otherwise>
+		 								<option value="${perPage}" selected>${perPage}
+		 							</c:otherwise>
+		 						</c:choose>
+    						</c:forEach>
+    					</select>
+					</form>
+			      </a>
+				</li>
 			</ul>
 		</div>
 	</tiles:putAttribute>

@@ -14,14 +14,19 @@ import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodySer
 @Controller
 public class UsersController {
 
-	final Integer USERS_PER_PAGE = 4;
+	private static final Integer USERS_PER_PAGE = 4;
+	private static final int[] PARTSIZE = {4, 8, 12, 16, 20, 24, 32, 40, 60, 80, 100, 200};
 
 	@RequestMapping(value = "/userlist.html", method = RequestMethod.GET)
 	public String getUserList(Model model, @Autowired HealthBodyServiceImplService healthBody,
-			@RequestParam(value = "partNumber", required = false) Integer partNumber) {
+			@RequestParam(value = "partNumber", required = false) Integer partNumber,
+			@RequestParam(value = "per", required = false) Integer perPage) {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		if (perPage == null || perPage <= 0) {
+			perPage = USERS_PER_PAGE;
+		}
 		int n = service.getAllUsers(1, Integer.MAX_VALUE).size();
-		int lastPartNumber = (int) Math.ceil(n * 1.0 / USERS_PER_PAGE);
+		int lastPartNumber = (int) Math.ceil(n * 1.0 / perPage);
 		if (partNumber == null || partNumber <= 0) {
 			partNumber = 1;
 		}
@@ -35,7 +40,9 @@ public class UsersController {
 		model.addAttribute("startPartNumber", startPartNumber);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPartNumber", lastPartNumber);
-		model.addAttribute("AllUsers", service.getAllUsers(partNumber, USERS_PER_PAGE));
+		model.addAttribute("perPage", perPage);
+		model.addAttribute("partSize", PARTSIZE);
+		model.addAttribute("AllUsers", service.getAllUsers(partNumber, perPage));
 		return "userList";
 	}
 }
