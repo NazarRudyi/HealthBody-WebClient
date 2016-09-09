@@ -1,6 +1,7 @@
 package edu.softserveinc.healthbody.webclient.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
@@ -31,8 +32,8 @@ public class FitData {
 		List<String> competitionsIds = new ArrayList<>();
 		for (CompetitionDTO competitionDTO : service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE, login)) {
 			competitionsIds.add(competitionDTO.getIdCompetition());
-			log.info(competitionDTO.getIdCompetition());
 		}
+		log.info(Arrays.toString(competitionsIds.toArray()));
 		return competitionsIds;
 	}
 
