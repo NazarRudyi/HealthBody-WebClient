@@ -13,6 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.JsonObject;
@@ -114,9 +115,13 @@ public class GoogleFitUtils {
 			if (googleSteps.isNull("bucket")) {
 				log.info("Sorry your info about steps is empty");
 			} else {
-				stepCount = googleSteps.getJSONArray("bucket").getJSONObject(0).getJSONArray("dataset").getJSONObject(0)
-						.getJSONArray("point").getJSONObject(0).getJSONArray("value").getJSONObject(0).get("intVal")
-						.toString();
+				try {
+					stepCount = googleSteps.getJSONArray("bucket").getJSONObject(0).getJSONArray("dataset")
+							.getJSONObject(0).getJSONArray("point").getJSONObject(0).getJSONArray("value")
+							.getJSONObject(0).get("intVal").toString();
+				} catch (JSONException e) {
+					stepCount = "0";
+				}
 			}
 		}
 		log.info("Your steps count :" + stepCount);

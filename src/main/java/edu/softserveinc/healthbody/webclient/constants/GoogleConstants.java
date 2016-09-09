@@ -11,6 +11,7 @@ public class GoogleConstants {
 	public static final String USERINFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
 	public static final String DEFAULT_GROUP_NAME = "Name group number 1";
 	public static final String DEFAULT_ROLE_NAME = "user";
+	public static final String ADMIN_ROLE_NAME = "admin";
 	public static final String DEFAULT_USER_DISABLED = "false";
 	public static final String GREATING_NOT_REGISTRED = ", wellcome! You've singed up HealthBody!";
 	public static final String GREATING_ALREADY_REGISTRED = ", wellcome HealthBody!";

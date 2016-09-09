@@ -102,7 +102,11 @@ public class GoogleAuthServlet extends HttpServlet {
 		userDTO.setWeight("0.0");
 		userDTO.setGender(data.getGender());
 		userDTO.setPhotoURL(data.getPicture());
-		userDTO.setRoleName(GoogleConstants.DEFAULT_ROLE_NAME);
+		if (("healthbodyservice@gmail.com").equals(data.getEmail())) {
+			userDTO.setRoleName(GoogleConstants.ADMIN_ROLE_NAME);
+		} else {
+			userDTO.setRoleName(GoogleConstants.DEFAULT_ROLE_NAME);
+		}
 		userDTO.setStatus(null);
 		userDTO.setScore("0");
 		if (userDTO.getGroups().isEmpty()) {
