@@ -6,7 +6,9 @@ import java.util.List;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetitionsDTO;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FitData {
 
 	public static void updateUsersScoresInCompetition(HealthBodyService service, String login) {
@@ -29,6 +31,7 @@ public class FitData {
 		List<String> competitionsIds = new ArrayList<>();
 		for (CompetitionDTO competitionDTO : service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE, login)) {
 			competitionsIds.add(competitionDTO.getIdCompetition());
+			log.info(competitionDTO.getIdCompetition());
 		}
 		return competitionsIds;
 	}
