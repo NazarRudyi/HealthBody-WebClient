@@ -45,6 +45,18 @@ public interface HealthBodyService {
 
     /**
      * 
+     * @return
+     *     returns java.util.List<edu.softserveinc.healthbody.webclient.healthbody.webservice.AwardDTO>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getAllAwards", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.GetAllAwards")
+    @ResponseWrapper(localName = "getAllAwardsResponse", targetNamespace = "http://webservice.healthbody.softserveinc.edu/", className = "edu.softserveinc.healthbody.webclient.healthbody.webservice.GetAllAwardsResponse")
+    @Action(input = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/getAllAwardsRequest", output = "http://webservice.healthbody.softserveinc.edu/HealthBodyService/getAllAwardsResponse")
+    public List<AwardDTO> getAllAwards();
+
+    /**
+     * 
      * @param arg0
      * @return
      *     returns edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO
