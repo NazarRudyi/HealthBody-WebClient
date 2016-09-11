@@ -1,8 +1,13 @@
 package edu.softserveinc.healthbody.webclient.controllers;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,9 +26,15 @@ import edu.softserveinc.healthbody.webclient.utils.CustomDateFormater;
 import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 import edu.softserveinc.healthbody.webclient.validator.CompetitionCreateValidator;
 import edu.softserveinc.healthbody.webclient.validator.CompetitionEditValidator;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class CompetitionController {
+	
+	public static final String BRONZE_MEDAL_ID = "44737314-5897-4103-9535-de5a99b5c657";
+	public static final String SILVER_MEDAL_ID = "bcce892c-3fdd-499c-92ea-a22d1e1e4c22";
+	public static final String GOLD_MEDAL_ID = "be0f0963-0111-46c9-872e-abf0ffc09167";
 
 	@Autowired
 	private CompetitionCreateValidator competitionCreateValidator;
@@ -243,6 +254,71 @@ public class CompetitionController {
 		competitionDTO.setStartDate(competitionToEdit.getStartDate());
 		competitionDTO.setFinishDate(competitionToEdit.getFinishDate());
 		service.updateCompetition(competitionDTO);
+		return "redirect:/listCompetitions.html";
+	}
+	
+	@RequestMapping(value = "/recountAwards.html", method = RequestMethod.GET)
+	public String recountSteps(Model model, @Autowired HealthBodyServiceImplService healthBody) {
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		
+		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
+		for (GroupDTO groupdto : listgroups) {
+			log.info(groupdto.getName());
+			Integer usersInGroup = groupdto.getUsers().size();
+			List<CompetitionDTO> listcompetitions = service.getAllCompetitionsByGroup(1, Integer.MAX_VALUE,
+					groupdto.getIdGroup());
+			if (listcompetitions.isEmpty())
+				continue;
+			for (CompetitionDTO competitionDTO : listcompetitions) {
+				Integer userScore = 0;
+				log.info(competitionDTO.getName());
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+				DateTime start = formatter.parseDateTime(competitionDTO.getStartDate());
+				DateTime today = DateTime.now().withTimeAtStartOfDay();
+				Integer days = Days.daysBetween(start, today).getDays();
+				log.info("Days per competition " + days);
+				for (String login : groupdto.getUsers()) {
+					log.info(login);
+					UserCompetitionsDTO usercompetition = service.getUserCompetition(competitionDTO.getIdCompetition(),
+							login);
+					if (usercompetition == null)
+						continue;
+					userScore = userScore + Integer.parseInt(usercompetition.getUserScore());
+					log.info("User score " + userScore);
+				}
+				Integer averageScore = userScore / usersInGroup / days;
+				log.info("Average score " + averageScore);
+
+				if (averageScore >= 10000 && averageScore < 15000) {
+					for (String login : groupdto.getUsers()) {
+						UserCompetitionsDTO usercompetition = service
+								.getUserCompetition(competitionDTO.getIdCompetition(), login);
+						usercompetition.setAwardsName(BRONZE_MEDAL_ID);
+						Date date = new Date(System.currentTimeMillis());
+						usercompetition.setTimeReceivedAward(date.toString());
+						service.updateUserCompetition(usercompetition);
+					}
+				} else if (averageScore >= 15000 && averageScore < 20000) {
+					for (String login : groupdto.getUsers()) {
+						UserCompetitionsDTO usercompetition = service
+								.getUserCompetition(competitionDTO.getIdCompetition(), login);
+						usercompetition.setAwardsName(SILVER_MEDAL_ID);
+						Date date = new Date(System.currentTimeMillis());
+						usercompetition.setTimeReceivedAward(date.toString());
+						service.updateUserCompetition(usercompetition);
+					}
+				} else if (averageScore >= 20000) {
+					for (String login : groupdto.getUsers()) {
+						UserCompetitionsDTO usercompetition = service
+								.getUserCompetition(competitionDTO.getIdCompetition(), login);
+						usercompetition.setAwardsName(GOLD_MEDAL_ID);
+						Date date = new Date(System.currentTimeMillis());
+						usercompetition.setTimeReceivedAward(date.toString());
+						service.updateUserCompetition(usercompetition);
+					}
+				}
+			}
+		}
 		return "redirect:/listCompetitions.html";
 	}
 

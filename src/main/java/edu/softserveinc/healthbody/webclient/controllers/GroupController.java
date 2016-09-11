@@ -25,8 +25,6 @@ import edu.softserveinc.healthbody.webclient.validator.GroupValidator;
 @Controller
 public class GroupController {
 
-	final Integer DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE = 7;
-
 	@Autowired
 	GroupValidator groupValidator;
 
@@ -93,30 +91,6 @@ public class GroupController {
 				test = true;
 			}
 		}
-
-		// Integer scoreGroup = 0;
-		// Integer size = 0;
-		// List<GroupDTO> listgroups = service.getAllGroupsParticipants(1,
-		// Integer.MAX_VALUE);
-		// for (GroupDTO groupdto : listgroups) {
-		// if (groupdto.getIdGroup().equals(nameGroup)) {
-		// size = groupdto.getUsers().size();
-		// for (String login : groupdto.getUsers()) {
-		// String gettedAccessToken =
-		// GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
-		// Long startTime = (System.currentTimeMillis() -
-		// DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE*24*60*60*1000);
-		// String fitData = GoogleFitUtils.post(gettedAccessToken, startTime,
-		// System.currentTimeMillis());
-		// String stepCount = GoogleFitUtils.getStepCount(fitData);
-		// Integer steps = Integer.parseInt(stepCount);
-		// scoreGroup = scoreGroup + steps;
-		// }
-		// }
-		// }
-		// Integer averagescore =
-		// scoreGroup/DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE/size;
-		// groupDTO.setScoreGroup(averagescore.toString());
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("group", groupDTO);
 		if (test) {

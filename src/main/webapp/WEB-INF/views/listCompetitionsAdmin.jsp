@@ -3,6 +3,29 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<link rel="icon"
+	href="https://d13yacurqjgara.cloudfront.net/users/678458/screenshots/1856046/h-icon.png">
+<!-- Bootstrap -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+	async></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script type="text/javascript" src="resources/js/bootstrap.min.js" async></script>
+<!-- bootbox code -->
+<script src="resources/js/bootbox.min.js" async></script>
+<!-- heartcode-canvasloader code -->
+<script src="resources/js/heartcode-canvasloader-min.js" async></script>
+<script>
+	$(document).on("click", ".confirm", function(e) {
+		var cl = new CanvasLoader('canvasloader-container');
+		cl.setColor('#6e6ec2');
+		cl.setShape('spiral');
+		cl.show();
+
+	});
+</script>
 <tiles:insertDefinition name="base-definition">
 	<tiles:putAttribute name="body">
 	<div class="container">
@@ -10,9 +33,15 @@
 			<tr class="info">
 				<th><a class="btn btn-success" type="submit"
 					href="createCompetition.html">Create competition</a></th>
+					<th></th>
+			</tr>
+			<tr class="info" style="height: 62px;">
+				<th><a class="confirm btn btn-warning" type="submit"
+					href="recountAwards.html">Recount all the awards</a></th>
+					<th><div id="canvasloader-container" class="wrapper"></div>
+					</th>
 			</tr>
 		</table>
-		<br>
 		<table class="table">
 			<tr class="info">
 				<th>Name :</th>
@@ -36,7 +65,6 @@
 				</tr>
 			</c:forEach>
 		</table>
-
 	</div>
 
 	<div class="container" align="center">
