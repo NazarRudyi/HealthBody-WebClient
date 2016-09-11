@@ -1,6 +1,7 @@
 package edu.softserveinc.healthbody.webclient.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
@@ -22,9 +24,9 @@ import edu.softserveinc.healthbody.webclient.validator.GroupValidator;
 
 @Controller
 public class GroupController {
-	
+
 	final Integer DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE = 7;
-	
+
 	@Autowired
 	GroupValidator groupValidator;
 
@@ -91,25 +93,30 @@ public class GroupController {
 				test = true;
 			}
 		}
-		
-//		Integer scoreGroup = 0;
-//		Integer size = 0;
-//		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
-//		for (GroupDTO groupdto : listgroups) {
-//			if (groupdto.getIdGroup().equals(nameGroup)) {
-//				size = groupdto.getUsers().size();
-//				for (String login : groupdto.getUsers()) {
-//					String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
-//					Long startTime = (System.currentTimeMillis() - DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE*24*60*60*1000);
-//					String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
-//					String stepCount = GoogleFitUtils.getStepCount(fitData);
-//					Integer steps = Integer.parseInt(stepCount);
-//					scoreGroup = scoreGroup + steps;
-//				}
-//			}
-//		}
-//		Integer averagescore = scoreGroup/DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE/size;
-//		groupDTO.setScoreGroup(averagescore.toString());
+
+		// Integer scoreGroup = 0;
+		// Integer size = 0;
+		// List<GroupDTO> listgroups = service.getAllGroupsParticipants(1,
+		// Integer.MAX_VALUE);
+		// for (GroupDTO groupdto : listgroups) {
+		// if (groupdto.getIdGroup().equals(nameGroup)) {
+		// size = groupdto.getUsers().size();
+		// for (String login : groupdto.getUsers()) {
+		// String gettedAccessToken =
+		// GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
+		// Long startTime = (System.currentTimeMillis() -
+		// DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE*24*60*60*1000);
+		// String fitData = GoogleFitUtils.post(gettedAccessToken, startTime,
+		// System.currentTimeMillis());
+		// String stepCount = GoogleFitUtils.getStepCount(fitData);
+		// Integer steps = Integer.parseInt(stepCount);
+		// scoreGroup = scoreGroup + steps;
+		// }
+		// }
+		// }
+		// Integer averagescore =
+		// scoreGroup/DAYS_QUANTITY_FOR_AVERAGE_GROUP_SCORE/size;
+		// groupDTO.setScoreGroup(averagescore.toString());
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("group", groupDTO);
 		if (test) {
@@ -130,6 +137,13 @@ public class GroupController {
 		Integer userCount = Integer.parseInt(group.getCount()) + 1;
 		group.setCount(userCount.toString());
 		service.updateGroup(group);
+
+		List<CompetitionDTO> competitions = service.getAllCompetitionsByGroup(1, Integer.MAX_VALUE, nameGroup);
+		for (CompetitionDTO competitionDTO : competitions) {
+			if (service.getUserCompetition(competitionDTO.getIdCompetition(), userLogin) == null) {
+				service.addUserInCompetitionView(competitionDTO.getIdCompetition(), userLogin);
+			}
+		}
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
@@ -143,7 +157,7 @@ public class GroupController {
 		service.deleteUserFromGroup(user, nameGroup);
 		GroupDTO group = service.getGroupById(nameGroup);
 		Integer userCount = Integer.parseInt(group.getCount()) - 1;
-		if(userCount <= 0) {
+		if (userCount <= 0) {
 			userCount = 0;
 		}
 		group.setCount(userCount.toString());
@@ -196,12 +210,13 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "editingGroup", method = RequestMethod.POST)
-	public String saveEdit(@ModelAttribute("group") GroupDTO groupEdit, Map<String, Object> model, BindingResult result) {
+	public String saveEdit(@ModelAttribute("group") GroupDTO groupEdit, Map<String, Object> model,
+			BindingResult result) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyServiceImplService healthBody = new HealthBodyServiceImplService();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		groupValidator.validate(groupEdit, result);
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "editingGroup";
 		}
 		GroupDTO groupDTO = groupEdit;
