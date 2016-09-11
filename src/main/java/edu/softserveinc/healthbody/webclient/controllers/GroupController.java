@@ -82,6 +82,44 @@ public class GroupController {
 		return "listGroups";
 	}
 
+	@RequestMapping(value = "/allGroups.html", method = RequestMethod.GET)
+	public String allGroups(Model model, @Autowired HealthBodyServiceImplService healthBody,
+			@RequestParam(value = "groupsParticipantsPartnumber", required = false) Integer groupsPartnumber) {
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+		/** Setting default quantity groups per page */
+		final Integer DEFAULT_QUANTITY_GROUPS_PER_PAGE = 5;
+
+		/**
+		 * Avoid access to hole list of groups if in URL field will be inputed
+		 * negative value -1 or lower (by hands)
+		 */
+		if (groupsPartnumber == null || groupsPartnumber <= 0)
+			groupsPartnumber = 1;
+
+		/** Set current page */
+		int currentPage = groupsPartnumber;
+		int startPartNumber = 1;
+		/** Getting quantity of records in groups table in DB */
+		int dataBaseRecordsQuontity = service.getAllGroups(1, Integer.MAX_VALUE).size();
+
+		/** Calculating last page number without remain */
+		int lastpagePartNumber = (int) Math.ceil(dataBaseRecordsQuontity * 1.0 / DEFAULT_QUANTITY_GROUPS_PER_PAGE);
+
+		/**
+		 * Avoid access to the blank page if in URL will be inputed value more
+		 * than last page number (by hands)
+		 */
+		if (groupsPartnumber > lastpagePartNumber)
+			groupsPartnumber = lastpagePartNumber;
+		model.addAttribute("startPartNumber", startPartNumber);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastpagePartNumber", lastpagePartNumber);
+		model.addAttribute("user", service.getUserByLogin(userLogin));
+		model.addAttribute("groups", service.getAllGroups(groupsPartnumber, DEFAULT_QUANTITY_GROUPS_PER_PAGE));
+		return "allGroups";
+	}
+
 	@RequestMapping(value = "/group.html", method = RequestMethod.GET)
 	public String getGroup(Model model, @Autowired HealthBodyServiceImplService healthBody, String nameGroup) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
