@@ -3,71 +3,73 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<script>
-<!--
-	function allCompetitions() {
-		var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/competitions?partNumber=0&partSize=0';
-		var login = '${login}';
-		$
-				.getJSON(
-						url,
-						function(data) {
-							var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th></tr>';
-							$
-									.each(
-											data,
-											function(i, item) {
-												trHTML += '<tr><td>'
-														+ '<a href="competition.html?idCompetition='
-														+ item.idCompetition
-														+ '&userLogin='
-														+ login
-														+ '" style="color: black">'
-														+ item.name + '</a>'
-														+ '</td><td>'
-														+ item.count
-														+ '</td><td>'
-														+ item.startDate
-														+ '</td><td>'
-														+ item.finishDate
-														+ '</td></tr>';
-											});
-							document.getElementById('competitiontable').innerHTML = trHTML;
-						});
-	}
-	function activeCompetitions() {
-		var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/activecompetitions?partNumber=0&partSize=0';
-		var login = '${login}';
-		$
-				.getJSON(
-						url,
-						function(data) {
-							var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th></tr>';
-							$
-									.each(
-											data,
-											function(i, item) {
-												trHTML += '<tr><td>'
-														+ '<a href="competition.html?idCompetition='
-														+ item.idCompetition
-														+ '&userLogin='
-														+ login
-														+ '" style="color: black">'
-														+ item.name + '</a>'
-														+ '</td><td>'
-														+ item.count
-														+ '</td><td>'
-														+ item.startDate
-														+ '</td><td>'
-														+ item.finishDate
-														+ '</td></tr>';
-											});
-							document.getElementById('competitiontable').innerHTML = trHTML;
-						});
-	}
-//-->
-</script>
 <tiles:insertDefinition name="base-definition">
+	<script>
+	<!--
+		function allCompetitions() {
+			var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/competitions?partNumber=0&partSize=0';
+			var login = '${login}';
+			$
+					.getJSON(
+							url,
+							function(data) {
+								var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th></tr>';
+								$
+										.each(
+												data,
+												function(i, item) {
+													trHTML += '<tr><td>'
+															+ '<a href="competition.html?idCompetition='
+															+ item.idCompetition
+															+ '&userLogin='
+															+ login
+															+ '" style="color: black">'
+															+ item.name
+															+ '</a>'
+															+ '</td><td>'
+															+ item.count
+															+ '</td><td>'
+															+ item.startDate
+															+ '</td><td>'
+															+ item.finishDate
+															+ '</td></tr>';
+												});
+								document.getElementById('competitiontable').innerHTML = trHTML;
+							});
+		}
+		function activeCompetitions() {
+			var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/activecompetitions?partNumber=0&partSize=0';
+			var login = '${login}';
+			$
+					.getJSON(
+							url,
+							function(data) {
+								var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th></tr>';
+								$
+										.each(
+												data,
+												function(i, item) {
+													trHTML += '<tr><td>'
+															+ '<a href="competition.html?idCompetition='
+															+ item.idCompetition
+															+ '&userLogin='
+															+ login
+															+ '" style="color: black">'
+															+ item.name
+															+ '</a>'
+															+ '</td><td>'
+															+ item.count
+															+ '</td><td>'
+															+ item.startDate
+															+ '</td><td>'
+															+ item.finishDate
+															+ '</td></tr>';
+												});
+								document.getElementById('competitiontable').innerHTML = trHTML;
+							});
+		}
+	//-->
+	</script>
 	<tiles:putAttribute name="body">
 		<div class="weather" align="center">
 			<b>Weather in: </b>${city_name}<br> <img
@@ -80,7 +82,8 @@
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab"
 					onclick="activeCompetitions()">Active Competitions</a></li>
-				<li><a data-toggle="tab" onclick="allCompetitions()"> All Competitions</a></li>
+				<li><a data-toggle="tab" onclick="allCompetitions()"> All
+						Competitions</a></li>
 			</ul>
 			<table class="table table-hover" id="competitiontable">
 				<tr class="info">
