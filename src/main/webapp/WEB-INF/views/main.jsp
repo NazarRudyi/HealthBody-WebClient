@@ -80,7 +80,7 @@
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab"
 					onclick="activeCompetitions()">Active Competitions</a></li>
-				<li><a data-toggle="tab" onclick="allCompetitions()">Competitions</a></li>
+				<li><a data-toggle="tab" onclick="allCompetitions()"> All Competitions</a></li>
 			</ul>
 			<table class="table table-hover" id="competitiontable">
 				<tr class="info">
