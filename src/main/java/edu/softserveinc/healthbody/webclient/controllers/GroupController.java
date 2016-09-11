@@ -84,7 +84,7 @@ public class GroupController {
 
 	@RequestMapping(value = "/allGroups.html", method = RequestMethod.GET)
 	public String allGroups(Model model, @Autowired HealthBodyServiceImplService healthBody,
-			@RequestParam(value = "groupsParticipantsPartnumber", required = false) Integer groupsPartnumber) {
+			@RequestParam(value = "groupsPartnumber", required = false) Integer groupsPartnumber) {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		/** Setting default quantity groups per page */
