@@ -5,38 +5,42 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <tiles:insertDefinition name="base-definition">
 	<tiles:putAttribute name="body">
-	
-<script>
-<!--
-	function allCompetitions() {
-		var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/competitions?partNumber=0&partSize=0';
-		getData(url);
-	}
-	function activeCompetitions() {
-		var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/activecompetitions?partNumber=0&partSize=0';
-		getData(url);
-	}
-	
-	function getData(jsonURL){
-		$.getJSON(jsonURL, function(data) {
-			var login = '${login}';
-			var trHTML = '<tr class="info"><th>Name of Competition :</th><th>Amount :</th><th>Start Date :</th><th>End Date :</th>';
-			$.each(data, function(i, item) {
-								trHTML += 					  '<tr><td>'
-			+ '<a href="competition.html?idCompetition='+ item.idCompetition+ '&userLogin='+ login
-			+ '" style="color: black">'+ item.name + '</a>' + '</td><td>'
-															+ item.count
-															+ '</td><td>'
-															+ item.startDate
-															+ '</td><td>'
-															+ item.finishDate
-															+ '</td></tr>';
-							});
-			document.getElementById('competitiontable').innerHTML = trHTML;
-		});
-	}
-//-->
-</script>
+
+		<script>
+		<!--
+			function makeCompetitionTable(data) {
+				var login = '${login}';
+				var trHTML = '<tr class="info"><th>Name of Competition :</th><th>Amount :</th><th>Start Date :</th><th>End Date :</th>';
+				$.each(data, function(i, item) {
+					trHTML += '<tr><td>'
+							+ '<a href="competition.html?idCompetition='
+							+ item.idCompetition + '&userLogin=' + login
+							+ '" style="color: black">' + item.name + '</a>'
+							+ '</td><td>' + item.count + '</td><td>'
+							+ item.startDate + '</td><td>' + item.finishDate
+							+ '</td></tr>';
+				});
+				document.getElementById('competitiontable').innerHTML = trHTML;
+			}
+		
+			function getData(jsonURL) {
+				$.getJSON(jsonURL, function(data) {
+									makeCompetitionTable(data);
+								});
+			}
+		
+			function allCompetitions() {
+				var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/competitions?partNumber=0&partSize=0';
+				getData(url);
+			}
+		
+			function activeCompetitions() {
+				var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/activecompetitions?partNumber=0&partSize=0';
+				getData(url);
+			}
+
+		//-->
+		</script>
 		<div class="weather" align="center">
 			<b>Weather in: </b>${city_name}<br> <img
 				src="http://openweathermap.org/img/w/${weather_icon}.png"
@@ -48,7 +52,8 @@
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab"
 					onclick="activeCompetitions()">Active Competitions</a></li>
-				<li><a data-toggle="tab" onclick="allCompetitions()"> All Competitions</a></li>
+				<li><a data-toggle="tab" onclick="allCompetitions()"> All
+						Competitions</a></li>
 			</ul>
 			<table class="table table-hover" id="competitiontable">
 				<tr class="info">
