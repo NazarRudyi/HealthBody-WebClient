@@ -10,41 +10,30 @@
 <!--
 	function allCompetitions() {
 		var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/competitions?partNumber=0&partSize=0';
-		var login = '${login}';
-		$.getJSON(url, function(data) {
-							var trHTML = '<tr class="info"><th>Name of Competition :</th><th>Amount :</th><th>Start Date :</th><th>End Date :</th>';
-							$.each(data, function(i, item) {
-												trHTML += '<tr><td>'
-		+ '<a href="competition.html?idCompetition='+ item.idCompetition+ '&userLogin='+ login
-		+ '" style="color: black">'+ item.name + '</a>' + '</td><td>'
-														+ item.count
-														+ '</td><td>'
-														+ item.startDate
-														+ '</td><td>'
-														+ item.finishDate
-														+ '</td></tr>';
-											});
-							document.getElementById('competitiontable').innerHTML = trHTML;
-						});
+		getData(url);
 	}
 	function activeCompetitions() {
 		var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/activecompetitions?partNumber=0&partSize=0';
-		var login = '${login}';
-		$.getJSON(url, function(data) {
-							var trHTML = '<tr class="info"><th>Name of Competition :</th><th>Amount :</th><th>Start Date :</th><th>End Date :</th>';
-							$.each(data, function(i, item) {
-												trHTML += '<tr><td>'
-		+ '<a href="competition.html?idCompetition='+ item.idCompetition+ '&userLogin='+ login
-		+ '" style="color: black">'+ item.name + '</a>' + '</td><td>'
-														+ item.count
-														+ '</td><td>'
-														+ item.startDate
-														+ '</td><td>'
-														+ item.finishDate
-														+ '</td></tr>';
-											});
-							document.getElementById('competitiontable').innerHTML = trHTML;
-						});
+		getData(url);
+	}
+	
+	function getData(jsonURL){
+		$.getJSON(jsonURL, function(data) {
+			var login = '${login}';
+			var trHTML = '<tr class="info"><th>Name of Competition :</th><th>Amount :</th><th>Start Date :</th><th>End Date :</th>';
+			$.each(data, function(i, item) {
+								trHTML += 					  '<tr><td>'
+			+ '<a href="competition.html?idCompetition='+ item.idCompetition+ '&userLogin='+ login
+			+ '" style="color: black">'+ item.name + '</a>' + '</td><td>'
+															+ item.count
+															+ '</td><td>'
+															+ item.startDate
+															+ '</td><td>'
+															+ item.finishDate
+															+ '</td></tr>';
+							});
+			document.getElementById('competitiontable').innerHTML = trHTML;
+		});
 	}
 //-->
 </script>
