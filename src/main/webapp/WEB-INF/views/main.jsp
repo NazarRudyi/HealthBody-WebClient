@@ -13,7 +13,7 @@
 					.getJSON(
 							url,
 							function(data) {
-								var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th></tr>';
+								var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th>';
 								$
 										.each(
 												data,
@@ -44,7 +44,7 @@
 					.getJSON(
 							url,
 							function(data) {
-								var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th></tr>';
+								var trHTML = '<tr class="info"><th>Name of Competition :</th><<th>Amount :</th><th>Start Date :</th><th>End Date :</th>';
 								$
 										.each(
 												data,
