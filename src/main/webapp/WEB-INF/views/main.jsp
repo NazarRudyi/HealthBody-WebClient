@@ -37,6 +37,7 @@
 	}
 	function activeCompetitions() {
 		var url = 'http://ws-healthbody.rhcloud.com/HealthBody-WebService/listener/activecompetitions?partNumber=0&partSize=0';
+		var login = '${login}';
 		$
 				.getJSON(
 						url,
