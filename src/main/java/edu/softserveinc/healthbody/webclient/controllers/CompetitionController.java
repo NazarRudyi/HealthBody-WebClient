@@ -139,7 +139,7 @@ public class CompetitionController {
 		model.addAttribute("silver", silverCount);
 		model.addAttribute("gold", goldCount);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
-		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
+		model.addAttribute("usercompetitions", service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
 	}
 
@@ -168,7 +168,7 @@ public class CompetitionController {
 		model.addAttribute("silver", silverCount);
 		model.addAttribute("gold", goldCount);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
-		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
+		model.addAttribute("usercompetitions", service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 		return "userCabinet";
 	}
