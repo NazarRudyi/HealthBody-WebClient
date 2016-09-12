@@ -3,6 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<!-- icon -->
+<link href="resources/css/icon.css" rel="stylesheet">
 <tiles:insertDefinition name="base-definition">
 	<tiles:putAttribute name="body">
 	<div class="container">
@@ -13,6 +15,20 @@
 						<div class="col-md-3 col-lg-3 " align="center">
 							<img alt="User Pic" src="${user.photoURL}"
 								class="img-circle img-responsive">
+						<ul class="menu">
+							<c:if test="${bronze > 0}">
+								<li><a><span class="icon"></span>${bronze}</a></li>
+								<li><a><span class="icon" style="color: #cd853f;">&#127894;</span></a></li>
+							</c:if>
+							<c:if test="${silver > 0}">
+								<li><a><span class="icon"></span>${silver}</a></li>
+								<li><a><span class="icon" style="color: #c0c0c0;">&#127894;</span></a></li>
+							</c:if>
+							<c:if test="${gold > 0}">
+								<li><a><span class="icon"></span>${gold}</a></li>
+								<li><a><span class="icon" style="color: #ffd700;">&#127894;</span></a></li>
+							</c:if>
+						</ul> 
 						</div>
 						<div class=" col-md-9 col-lg-9 ">
 							<table class="table table-user-information">

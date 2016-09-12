@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import edu.softserveinc.healthbody.webclient.constants.AwardConstants;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
@@ -18,10 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class UserCabinetController {
-
-	public static final String BRONZE_MEDAL_ID = "44737314-5897-4103-9535-de5a99b5c657";
-	public static final String SILVER_MEDAL_ID = "bcce892c-3fdd-499c-92ea-a22d1e1e4c22";
-	public static final String GOLD_MEDAL_ID = "be0f0963-0111-46c9-872e-abf0ffc09167";
 
 	/**
 	 * @param model
@@ -45,18 +43,18 @@ public class UserCabinetController {
 		String stepCount = GoogleFitUtils.getStepCount(fitData);
 		log.info(stepCount);
 
-		List<CompetitionDTO> competitions = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
+		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
 		int bronzeCount = 0;
 		int silverCount = 0;
 		int goldCount = 0;
-		for (CompetitionDTO competition : competitions) {
-			UserCompetitionsDTO userCompetition = service.getUserCompetition(competition.getIdCompetition(), userLogin);
-			String award = userCompetition.getAwardsName();
-			if (BRONZE_MEDAL_ID.equals(award))
+		for (CompetitionDTO competition : list) {
+			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(), userLogin);
+			String award = userCompetitionsDTO.getAwardsName();
+			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
 				bronzeCount++;
-			else if (SILVER_MEDAL_ID.equals(award))
+			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
 				silverCount++;
-			else if (GOLD_MEDAL_ID.equals(award))
+			else if (AwardConstants.GOLD_MEDAL_ID.equals(award))
 				goldCount++;
 		}
 		log.info("bronze " + bronzeCount);

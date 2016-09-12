@@ -1,0 +1,44 @@
+body{
+margin: 0 auto;
+width: 100%;
+}
+.menu{
+height: 85px;
+margin: 0;
+font-family: Arial, sans-serif;
+-webkit-padding-start: 0px;
+}
+ul.menu li{
+display: inline-block;
+list-style: none;
+width: 25px;
+text-align: center;
+position: relative;
+float: right;
+}
+span.icon{ 
+font-size: 3em;
+display: block;
+}
+.menu li:nth-child(odd) a {
+color: grey;
+text-decoration: none;
+padding: 0 0 5px;
+text-shadow: 0 0 15px #ff7900, 0 0 15px #ff7900, 0 0 15px #ff7900;
+}
+.menu li:nth-child(even) a {
+text-decoration: none;
+}
+.icon{
+transition: 1s;
+}
+ul.menu li:nth-child(even) a:hover .icon{
+color: white;
+-webkit-transform: rotate(-720deg);
+transform: rotate(-720deg);
+text-shadow: 0 0 15px #ff7900, 0 0 15px #ff7900, 0 0 15px #ff7900;
+}
+ul.menu li:nth-child(odd) .icon{
+padding-top: 30px;
+}
+

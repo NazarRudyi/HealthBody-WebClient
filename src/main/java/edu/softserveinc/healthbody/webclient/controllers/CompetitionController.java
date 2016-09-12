@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import edu.softserveinc.healthbody.webclient.constants.AwardConstants;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
@@ -35,12 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class CompetitionController {
-	
-	public static final String BRONZE_MEDAL_ID = "44737314-5897-4103-9535-de5a99b5c657";
-	public static final String SILVER_MEDAL_ID = "bcce892c-3fdd-499c-92ea-a22d1e1e4c22";
-	public static final String GOLD_MEDAL_ID = "be0f0963-0111-46c9-872e-abf0ffc09167";
-	public static final String HEALTHY_WALKING_ID = "58f44c78-ccfa-4596-bcc3-7c1ba9908135";
-	public static final String HEALTH_PEOPLE_ID = "533e416d-c3ef-44e3-9e22-cfc4feddf76d";
 
 	@Autowired
 	private CompetitionCreateValidator competitionCreateValidator;
@@ -61,19 +56,6 @@ public class CompetitionController {
 			partNumber = 1;
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("startPartNumber", startPartNumber);
-		
-		UserCompetitionsDTO d = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "volodya4u");
-		log.info("volodya4u");
-		log.info(d.getAwardsName() + " " + d.getTimeReceivedAward());
-		UserCompetitionsDTO f = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "vdzedzej");
-		log.info("vdzedzej");
-		log.info(f.getAwardsName() + " " + f.getTimeReceivedAward());
-		UserCompetitionsDTO a = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "rudyi.nazar");
-		log.info("rudyi.nazar");
-		log.info(a.getAwardsName() + " " + a.getTimeReceivedAward());
-		UserCompetitionsDTO b = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "fedorushunp");
-		log.info("fedorushunp");
-		log.info(b.getAwardsName() + " " + b.getTimeReceivedAward());
 
 		if ("admin".equals(service.getUserByLogin(userLogin).getRoleName())) {
 			int n = service.getAllCompetitions(1, Integer.MAX_VALUE).size();
@@ -138,6 +120,24 @@ public class CompetitionController {
 		UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
 		userCompetition.setUserScore(stepCount);
 		service.updateUserCompetition(userCompetition);
+		
+		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
+		int bronzeCount = 0;
+		int silverCount = 0;
+		int goldCount = 0;
+		for (CompetitionDTO competition : list) {
+			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(), userLogin);
+			String award = userCompetitionsDTO.getAwardsName();
+			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
+				bronzeCount++;
+			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
+				silverCount++;
+			else if (AwardConstants.GOLD_MEDAL_ID.equals(award))
+				goldCount++;
+		}
+		model.addAttribute("bronze", bronzeCount);
+		model.addAttribute("silver", silverCount);
+		model.addAttribute("gold", goldCount);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		return "userCabinet";
@@ -149,6 +149,24 @@ public class CompetitionController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		service.deleteUserCompetition(idCompetition, userLogin);
+		
+		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
+		int bronzeCount = 0;
+		int silverCount = 0;
+		int goldCount = 0;
+		for (CompetitionDTO competition : list) {
+			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(), userLogin);
+			String award = userCompetitionsDTO.getAwardsName();
+			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
+				bronzeCount++;
+			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
+				silverCount++;
+			else if (AwardConstants.GOLD_MEDAL_ID.equals(award))
+				goldCount++;
+		}
+		model.addAttribute("bronze", bronzeCount);
+		model.addAttribute("silver", silverCount);
+		model.addAttribute("gold", goldCount);
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("usercompetitions", service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
 		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
@@ -316,7 +334,7 @@ public class CompetitionController {
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
 						if (usercompetition == null)
 							continue;
-						usercompetition.setAwardsName(BRONZE_MEDAL_ID);
+						usercompetition.setAwardsName(AwardConstants.BRONZE_MEDAL_ID);
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
@@ -327,7 +345,7 @@ public class CompetitionController {
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
 						if (usercompetition == null)
 							continue;
-						usercompetition.setAwardsName(SILVER_MEDAL_ID);
+						usercompetition.setAwardsName(AwardConstants.SILVER_MEDAL_ID);
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
@@ -338,7 +356,7 @@ public class CompetitionController {
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
 						if (usercompetition == null)
 							continue;
-						usercompetition.setAwardsName(GOLD_MEDAL_ID);
+						usercompetition.setAwardsName(AwardConstants.GOLD_MEDAL_ID);
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
@@ -353,15 +371,15 @@ public class CompetitionController {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		List<GroupDTO> groups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
 		for (GroupDTO groupDTO : groups) {
-			if (HEALTH_PEOPLE_ID.equals(groupDTO.getIdGroup())) {
+			if (AwardConstants.HEALTH_PEOPLE_ID.equals(groupDTO.getIdGroup())) {
 				for (String login : groupDTO.getUsers()) {
-					String userScore = service.getUserCompetition(HEALTHY_WALKING_ID, login).getUserScore();
+					String userScore = service.getUserCompetition(AwardConstants.HEALTHY_WALKING_ID, login).getUserScore();
 					Integer score = Integer.parseInt(userScore);
 					if (score < 100) {
 						//leave group
 						UserDTO user = service.getUserByLogin(login);
-						service.deleteUserFromGroup(user, HEALTH_PEOPLE_ID);
-						GroupDTO group = service.getGroupById(HEALTH_PEOPLE_ID);
+						service.deleteUserFromGroup(user, AwardConstants.HEALTH_PEOPLE_ID);
+						GroupDTO group = service.getGroupById(AwardConstants.HEALTH_PEOPLE_ID);
 						Integer userCount = Integer.parseInt(group.getCount()) - 1;
 						if (userCount <= 0) {
 							userCount = 0;
@@ -369,7 +387,7 @@ public class CompetitionController {
 						group.setCount(userCount.toString());
 						service.updateGroup(group);
 						//leave competition
-						service.deleteUserCompetition(HEALTHY_WALKING_ID, login);
+						service.deleteUserCompetition(AwardConstants.HEALTHY_WALKING_ID, login);
 					}
 				}
 			}
