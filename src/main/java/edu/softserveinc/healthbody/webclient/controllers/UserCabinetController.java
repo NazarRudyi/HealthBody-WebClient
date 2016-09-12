@@ -59,6 +59,9 @@ public class UserCabinetController {
 			else if (GOLD_MEDAL_ID.equals(award))
 				goldCount++;
 		}
+		log.info("bronze " + bronzeCount);
+		log.info("silver " + silverCount);
+		log.info("gold " + goldCount);
 
 		/* SOAP **/
 		model.addAttribute("bronze", bronzeCount);

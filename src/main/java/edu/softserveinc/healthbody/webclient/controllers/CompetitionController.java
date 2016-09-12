@@ -3,7 +3,9 @@ package edu.softserveinc.healthbody.webclient.controllers;
 import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyServiceImplService;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserCompetitionsDTO;
+import edu.softserveinc.healthbody.webclient.healthbody.webservice.UserDTO;
 import edu.softserveinc.healthbody.webclient.utils.CustomDateFormater;
 import edu.softserveinc.healthbody.webclient.utils.GoogleFitUtils;
 import edu.softserveinc.healthbody.webclient.validator.CompetitionCreateValidator;
@@ -35,6 +39,8 @@ public class CompetitionController {
 	public static final String BRONZE_MEDAL_ID = "44737314-5897-4103-9535-de5a99b5c657";
 	public static final String SILVER_MEDAL_ID = "bcce892c-3fdd-499c-92ea-a22d1e1e4c22";
 	public static final String GOLD_MEDAL_ID = "be0f0963-0111-46c9-872e-abf0ffc09167";
+	public static final String HEALTHY_WALKING_ID = "58f44c78-ccfa-4596-bcc3-7c1ba9908135";
+	public static final String HEALTH_PEOPLE_ID = "533e416d-c3ef-44e3-9e22-cfc4feddf76d";
 
 	@Autowired
 	private CompetitionCreateValidator competitionCreateValidator;
@@ -55,6 +61,19 @@ public class CompetitionController {
 			partNumber = 1;
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("startPartNumber", startPartNumber);
+		
+		UserCompetitionsDTO d = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "volodya4u");
+		log.info("volodya4u");
+		log.info(d.getAwardsName() + " " + d.getTimeReceivedAward());
+		UserCompetitionsDTO f = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "vdzedzej");
+		log.info("vdzedzej");
+		log.info(f.getAwardsName() + " " + f.getTimeReceivedAward());
+		UserCompetitionsDTO a = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "rudyi.nazar");
+		log.info("rudyi.nazar");
+		log.info(a.getAwardsName() + " " + a.getTimeReceivedAward());
+		UserCompetitionsDTO b = service.getUserCompetition("58f44c78-ccfa-4596-bcc3-7c1ba9908135", "fedorushunp");
+		log.info("fedorushunp");
+		log.info(b.getAwardsName() + " " + b.getTimeReceivedAward());
 
 		if ("admin".equals(service.getUserByLogin(userLogin).getRoleName())) {
 			int n = service.getAllCompetitions(1, Integer.MAX_VALUE).size();
@@ -289,30 +308,37 @@ public class CompetitionController {
 				Integer averageScore = userScore / usersInGroup / days;
 				log.info("Average score " + averageScore);
 
-				if (averageScore >= 10000 && averageScore < 15000) {
+				Date date = new Date(System.currentTimeMillis());
+				if (averageScore >= 5000 && averageScore < 7000) {
+					log.info(date.toString());
 					for (String login : groupdto.getUsers()) {
 						UserCompetitionsDTO usercompetition = service
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
+						if (usercompetition == null)
+							continue;
 						usercompetition.setAwardsName(BRONZE_MEDAL_ID);
-						Date date = new Date(System.currentTimeMillis());
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
-				} else if (averageScore >= 15000 && averageScore < 20000) {
+				} else if (averageScore >= 7000 && averageScore < 9000) {
+					log.info(date.toString());
 					for (String login : groupdto.getUsers()) {
 						UserCompetitionsDTO usercompetition = service
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
+						if (usercompetition == null)
+							continue;
 						usercompetition.setAwardsName(SILVER_MEDAL_ID);
-						Date date = new Date(System.currentTimeMillis());
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
-				} else if (averageScore >= 20000) {
+				} else if (averageScore >= 9000) {
+					log.info(date.toString());
 					for (String login : groupdto.getUsers()) {
 						UserCompetitionsDTO usercompetition = service
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
+						if (usercompetition == null)
+							continue;
 						usercompetition.setAwardsName(GOLD_MEDAL_ID);
-						Date date = new Date(System.currentTimeMillis());
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
@@ -321,5 +347,33 @@ public class CompetitionController {
 		}
 		return "redirect:/listCompetitions.html";
 	}
-
+	
+	@RequestMapping(value = "/removeInactiveUsers.html", method = RequestMethod.GET)
+	public String removeInactiveUsers(Model model, @Autowired HealthBodyServiceImplService healthBody) {
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+		List<GroupDTO> groups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
+		for (GroupDTO groupDTO : groups) {
+			if (HEALTH_PEOPLE_ID.equals(groupDTO.getIdGroup())) {
+				for (String login : groupDTO.getUsers()) {
+					String userScore = service.getUserCompetition(HEALTHY_WALKING_ID, login).getUserScore();
+					Integer score = Integer.parseInt(userScore);
+					if (score < 100) {
+						//leave group
+						UserDTO user = service.getUserByLogin(login);
+						service.deleteUserFromGroup(user, HEALTH_PEOPLE_ID);
+						GroupDTO group = service.getGroupById(HEALTH_PEOPLE_ID);
+						Integer userCount = Integer.parseInt(group.getCount()) - 1;
+						if (userCount <= 0) {
+							userCount = 0;
+						}
+						group.setCount(userCount.toString());
+						service.updateGroup(group);
+						//leave competition
+						service.deleteUserCompetition(HEALTHY_WALKING_ID, login);
+					}
+				}
+			}
+		}
+		return "redirect:/listCompetitions.html";
+	}
 }
