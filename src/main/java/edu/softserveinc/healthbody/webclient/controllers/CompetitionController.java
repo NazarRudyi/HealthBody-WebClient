@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.softserveinc.healthbody.webclient.constants.AwardConstants;
+import edu.softserveinc.healthbody.webclient.constants.ValidatorConstants;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
@@ -120,13 +121,14 @@ public class CompetitionController {
 		UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
 		userCompetition.setUserScore(stepCount);
 		service.updateUserCompetition(userCompetition);
-		
+
 		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
 		int bronzeCount = 0;
 		int silverCount = 0;
 		int goldCount = 0;
 		for (CompetitionDTO competition : list) {
-			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(), userLogin);
+			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(),
+					userLogin);
 			String award = userCompetitionsDTO.getAwardsName();
 			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
 				bronzeCount++;
@@ -149,13 +151,14 @@ public class CompetitionController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		service.deleteUserCompetition(idCompetition, userLogin);
-		
+
 		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
 		int bronzeCount = 0;
 		int silverCount = 0;
 		int goldCount = 0;
 		for (CompetitionDTO competition : list) {
-			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(), userLogin);
+			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(),
+					userLogin);
 			String award = userCompetitionsDTO.getAwardsName();
 			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
 				bronzeCount++;
@@ -293,11 +296,11 @@ public class CompetitionController {
 		service.updateCompetition(competitionDTO);
 		return "redirect:/listCompetitions.html";
 	}
-	
+
 	@RequestMapping(value = "/recountAwards.html", method = RequestMethod.GET)
 	public String recountSteps(Model model, @Autowired HealthBodyServiceImplService healthBody) {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
-		
+
 		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
 		for (GroupDTO groupdto : listgroups) {
 			log.info(groupdto.getName());
@@ -309,7 +312,7 @@ public class CompetitionController {
 			for (CompetitionDTO competitionDTO : listcompetitions) {
 				Integer userScore = 0;
 				log.info(competitionDTO.getName());
-				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+				DateTimeFormatter formatter = DateTimeFormat.forPattern(ValidatorConstants.DATE_FORMAT);
 				DateTime start = formatter.parseDateTime(competitionDTO.getStartDate());
 				DateTime today = DateTime.now().withTimeAtStartOfDay();
 				Integer days = Days.daysBetween(start, today).getDays();
@@ -327,8 +330,8 @@ public class CompetitionController {
 				log.info("Average score " + averageScore);
 
 				Date date = new Date(System.currentTimeMillis());
-				if (averageScore >= 5000 && averageScore < 7000) {
-					log.info(date.toString());
+				if (averageScore >= AwardConstants.BRONZE_MEDAL_MINIMUM_SCORE
+						&& averageScore < AwardConstants.SILVER_MEDAL_MINIMUM_SCORE) {
 					for (String login : groupdto.getUsers()) {
 						UserCompetitionsDTO usercompetition = service
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
@@ -338,8 +341,8 @@ public class CompetitionController {
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
-				} else if (averageScore >= 7000 && averageScore < 9000) {
-					log.info(date.toString());
+				} else if (averageScore >= AwardConstants.SILVER_MEDAL_MINIMUM_SCORE
+						&& averageScore < AwardConstants.GOLD_MEDAL_MINIMUM_SCORE) {
 					for (String login : groupdto.getUsers()) {
 						UserCompetitionsDTO usercompetition = service
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
@@ -349,7 +352,7 @@ public class CompetitionController {
 						usercompetition.setTimeReceivedAward(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
-				} else if (averageScore >= 9000) {
+				} else if (averageScore >= AwardConstants.GOLD_MEDAL_MINIMUM_SCORE) {
 					log.info(date.toString());
 					for (String login : groupdto.getUsers()) {
 						UserCompetitionsDTO usercompetition = service
@@ -365,7 +368,7 @@ public class CompetitionController {
 		}
 		return "redirect:/listCompetitions.html";
 	}
-	
+
 	@RequestMapping(value = "/removeInactiveUsers.html", method = RequestMethod.GET)
 	public String removeInactiveUsers(Model model, @Autowired HealthBodyServiceImplService healthBody) {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
@@ -373,13 +376,16 @@ public class CompetitionController {
 		for (GroupDTO groupDTO : groups) {
 			if (AwardConstants.HEALTH_PEOPLE_ID.equals(groupDTO.getIdGroup())) {
 				for (String login : groupDTO.getUsers()) {
-					UserCompetitionsDTO userCompetition = service.getUserCompetition(AwardConstants.HEALTHY_WALKING_ID, login);
-					if (userCompetition == null) continue;
+					UserCompetitionsDTO userCompetition = service.getUserCompetition(AwardConstants.HEALTHY_WALKING_ID,
+							login);
+					if (userCompetition == null)
+						continue;
 					String userScore = userCompetition.getUserScore();
-					if (userScore == null) userScore="0";
+					if (userScore == null)
+						userScore = "0";
 					Integer score = Integer.parseInt(userScore);
 					if (score < 100) {
-						//leave group
+						// leave group
 						UserDTO user = service.getUserByLogin(login);
 						service.deleteUserFromGroup(user, AwardConstants.HEALTH_PEOPLE_ID);
 						GroupDTO group = service.getGroupById(AwardConstants.HEALTH_PEOPLE_ID);
@@ -389,7 +395,7 @@ public class CompetitionController {
 						}
 						group.setCount(userCount.toString());
 						service.updateGroup(group);
-						//leave competition
+						// leave competition
 						service.deleteUserCompetition(AwardConstants.HEALTHY_WALKING_ID, login);
 					}
 				}
