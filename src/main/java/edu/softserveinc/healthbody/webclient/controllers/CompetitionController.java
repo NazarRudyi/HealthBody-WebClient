@@ -373,7 +373,10 @@ public class CompetitionController {
 		for (GroupDTO groupDTO : groups) {
 			if (AwardConstants.HEALTH_PEOPLE_ID.equals(groupDTO.getIdGroup())) {
 				for (String login : groupDTO.getUsers()) {
-					String userScore = service.getUserCompetition(AwardConstants.HEALTHY_WALKING_ID, login).getUserScore();
+					UserCompetitionsDTO userCompetition = service.getUserCompetition(AwardConstants.HEALTHY_WALKING_ID, login);
+					if (userCompetition == null) continue;
+					String userScore = userCompetition.getUserScore();
+					if (userScore == null) userScore="0";
 					Integer score = Integer.parseInt(userScore);
 					if (score < 100) {
 						//leave group
