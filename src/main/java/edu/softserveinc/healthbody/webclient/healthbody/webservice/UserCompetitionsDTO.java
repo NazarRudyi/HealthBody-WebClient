@@ -1,11 +1,8 @@
 
 package edu.softserveinc.healthbody.webclient.healthbody.webservice;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -19,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="awardsName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="competitions" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="idAwards" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="idCompetition" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="idUser" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="idUserCompetition" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="login" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="timeReceivedAward" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="timeReceived" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="userScore" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -35,74 +32,92 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "userCompetitionsDTO", propOrder = {
-    "awardsName",
-    "competitions",
+    "idAwards",
+    "idCompetition",
+    "idUser",
     "idUserCompetition",
-    "login",
-    "timeReceivedAward",
+    "timeReceived",
     "userScore"
 })
 public class UserCompetitionsDTO {
 
-    protected String awardsName;
-    @XmlElement(nillable = true)
-    protected List<String> competitions;
+    protected String idAwards;
+    protected String idCompetition;
+    protected String idUser;
     protected String idUserCompetition;
-    protected String login;
-    protected String timeReceivedAward;
+    protected String timeReceived;
     protected String userScore;
 
     /**
-     * Gets the value of the awardsName property.
+     * Gets the value of the idAwards property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getAwardsName() {
-        return awardsName;
+    public String getIdAwards() {
+        return idAwards;
     }
 
     /**
-     * Sets the value of the awardsName property.
+     * Sets the value of the idAwards property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setAwardsName(String value) {
-        this.awardsName = value;
+    public void setIdAwards(String value) {
+        this.idAwards = value;
     }
 
     /**
-     * Gets the value of the competitions property.
+     * Gets the value of the idCompetition property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the competitions property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCompetitions().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public List<String> getCompetitions() {
-        if (competitions == null) {
-            competitions = new ArrayList<String>();
-        }
-        return this.competitions;
+    public String getIdCompetition() {
+        return idCompetition;
+    }
+
+    /**
+     * Sets the value of the idCompetition property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setIdCompetition(String value) {
+        this.idCompetition = value;
+    }
+
+    /**
+     * Gets the value of the idUser property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getIdUser() {
+        return idUser;
+    }
+
+    /**
+     * Sets the value of the idUser property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setIdUser(String value) {
+        this.idUser = value;
     }
 
     /**
@@ -130,51 +145,27 @@ public class UserCompetitionsDTO {
     }
 
     /**
-     * Gets the value of the login property.
+     * Gets the value of the timeReceived property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getLogin() {
-        return login;
+    public String getTimeReceived() {
+        return timeReceived;
     }
 
     /**
-     * Sets the value of the login property.
+     * Sets the value of the timeReceived property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setLogin(String value) {
-        this.login = value;
-    }
-
-    /**
-     * Gets the value of the timeReceivedAward property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTimeReceivedAward() {
-        return timeReceivedAward;
-    }
-
-    /**
-     * Sets the value of the timeReceivedAward property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTimeReceivedAward(String value) {
-        this.timeReceivedAward = value;
+    public void setTimeReceived(String value) {
+        this.timeReceived = value;
     }
 
     /**
