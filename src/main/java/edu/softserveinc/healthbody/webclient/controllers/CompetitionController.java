@@ -88,7 +88,6 @@ public class CompetitionController {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("getCompetition", service.getCompetitionViewById(idCompetition));
-		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 		model.addAttribute("groupcompetitions", service.getAllGroupsByCompetition(1, Integer.MAX_VALUE, idCompetition));
 		for (CompetitionDTO competition : service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin)) {
 			if (competition.getIdCompetition().equals(idCompetition)) {
@@ -101,6 +100,7 @@ public class CompetitionController {
 				UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
 				userCompetition.setUserScore(stepCount);
 				service.updateUserCompetition(userCompetition);
+				model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
 				return "leaveCompetition";
 			}
 		}
