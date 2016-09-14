@@ -165,7 +165,7 @@ public class GroupController {
 		int goldCount = 0;
 		for (CompetitionDTO competition : list) {
 			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(), userLogin);
-			String award = userCompetitionsDTO.getAwardsName();
+			String award = userCompetitionsDTO.getIdAwards();
 			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
 				bronzeCount++;
 			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
@@ -201,7 +201,7 @@ public class GroupController {
 		int goldCount = 0;
 		for (CompetitionDTO competition : list) {
 			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(), userLogin);
-			String award = userCompetitionsDTO.getAwardsName();
+			String award = userCompetitionsDTO.getIdAwards();
 			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
 				bronzeCount++;
 			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))

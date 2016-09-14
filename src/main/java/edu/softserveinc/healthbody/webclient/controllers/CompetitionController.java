@@ -138,7 +138,7 @@ public class CompetitionController {
 		for (CompetitionDTO competition : list) {
 			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(),
 					userLogin);
-			String award = userCompetitionsDTO.getAwardsName();
+			String award = userCompetitionsDTO.getIdAwards();
 			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
 				bronzeCount++;
 			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
@@ -168,7 +168,7 @@ public class CompetitionController {
 		for (CompetitionDTO competition : list) {
 			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(),
 					userLogin);
-			String award = userCompetitionsDTO.getAwardsName();
+			String award = userCompetitionsDTO.getIdAwards();
 			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
 				bronzeCount++;
 			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
@@ -346,8 +346,8 @@ public class CompetitionController {
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
 						if (usercompetition == null)
 							continue;
-						usercompetition.setAwardsName(AwardConstants.BRONZE_MEDAL_ID);
-						usercompetition.setTimeReceivedAward(date.toString());
+						usercompetition.setIdAwards(AwardConstants.BRONZE_MEDAL_ID);
+						usercompetition.setTimeReceived(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
 				} else if (averageScore >= AwardConstants.SILVER_MEDAL_MINIMUM_SCORE
@@ -357,8 +357,8 @@ public class CompetitionController {
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
 						if (usercompetition == null)
 							continue;
-						usercompetition.setAwardsName(AwardConstants.SILVER_MEDAL_ID);
-						usercompetition.setTimeReceivedAward(date.toString());
+						usercompetition.setIdAwards(AwardConstants.SILVER_MEDAL_ID);
+						usercompetition.setTimeReceived(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
 				} else if (averageScore >= AwardConstants.GOLD_MEDAL_MINIMUM_SCORE) {
@@ -368,8 +368,8 @@ public class CompetitionController {
 								.getUserCompetition(competitionDTO.getIdCompetition(), login);
 						if (usercompetition == null)
 							continue;
-						usercompetition.setAwardsName(AwardConstants.GOLD_MEDAL_ID);
-						usercompetition.setTimeReceivedAward(date.toString());
+						usercompetition.setIdAwards(AwardConstants.GOLD_MEDAL_ID);
+						usercompetition.setTimeReceived(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
 				}
