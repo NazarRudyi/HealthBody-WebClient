@@ -25,6 +25,7 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _GetUserCompetitionResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getUserCompetitionResponse");
+    private final static QName _GetAllUserCompetitionsResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getAllUserCompetitionsResponse");
     private final static QName _GetUserByLogin_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getUserByLogin");
     private final static QName _GetUserCompetition_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getUserCompetition");
     private final static QName _GetAllActiveCompetitionsResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getAllActiveCompetitionsResponse");
@@ -36,6 +37,7 @@ public class ObjectFactory {
     private final static QName _GetDescriptionOfGroup_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getDescriptionOfGroup");
     private final static QName _UpdateUserResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "updateUserResponse");
     private final static QName _GetAllCompetitionsByGroupResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getAllCompetitionsByGroupResponse");
+    private final static QName _GetAllUserCompetitions_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getAllUserCompetitions");
     private final static QName _GetDescriptionOfGroupResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getDescriptionOfGroupResponse");
     private final static QName _GetAllActiveCompetitionsByUserResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getAllActiveCompetitionsByUserResponse");
     private final static QName _GetAllCompetitionsResponse_QNAME = new QName("http://webservice.healthbody.softserveinc.edu/", "getAllCompetitionsResponse");
@@ -175,6 +177,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetAllUserCompetitionsResponse }
+     * 
+     */
+    public GetAllUserCompetitionsResponse createGetAllUserCompetitionsResponse() {
+        return new GetAllUserCompetitionsResponse();
+    }
+
+    /**
      * Create an instance of {@link UpdateUserCompetition }
      * 
      */
@@ -260,6 +270,14 @@ public class ObjectFactory {
      */
     public GetAllCompetitionsByGroupResponse createGetAllCompetitionsByGroupResponse() {
         return new GetAllCompetitionsByGroupResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetAllUserCompetitions }
+     * 
+     */
+    public GetAllUserCompetitions createGetAllUserCompetitions() {
+        return new GetAllUserCompetitions();
     }
 
     /**
@@ -720,6 +738,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllUserCompetitionsResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservice.healthbody.softserveinc.edu/", name = "getAllUserCompetitionsResponse")
+    public JAXBElement<GetAllUserCompetitionsResponse> createGetAllUserCompetitionsResponse(GetAllUserCompetitionsResponse value) {
+        return new JAXBElement<GetAllUserCompetitionsResponse>(_GetAllUserCompetitionsResponse_QNAME, GetAllUserCompetitionsResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByLogin }{@code >}}
      * 
      */
@@ -816,6 +843,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webservice.healthbody.softserveinc.edu/", name = "getAllCompetitionsByGroupResponse")
     public JAXBElement<GetAllCompetitionsByGroupResponse> createGetAllCompetitionsByGroupResponse(GetAllCompetitionsByGroupResponse value) {
         return new JAXBElement<GetAllCompetitionsByGroupResponse>(_GetAllCompetitionsByGroupResponse_QNAME, GetAllCompetitionsByGroupResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllUserCompetitions }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservice.healthbody.softserveinc.edu/", name = "getAllUserCompetitions")
+    public JAXBElement<GetAllUserCompetitions> createGetAllUserCompetitions(GetAllUserCompetitions value) {
+        return new JAXBElement<GetAllUserCompetitions>(_GetAllUserCompetitions_QNAME, GetAllUserCompetitions.class, null, value);
     }
 
     /**
