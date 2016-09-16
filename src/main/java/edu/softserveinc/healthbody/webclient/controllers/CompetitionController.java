@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.softserveinc.healthbody.webclient.constants.AwardConstants;
 import edu.softserveinc.healthbody.webclient.constants.ValidatorConstants;
-import edu.softserveinc.healthbody.webclient.healthbody.webservice.AwardDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.CompetitionDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.GroupDTO;
 import edu.softserveinc.healthbody.webclient.healthbody.webservice.HealthBodyService;
@@ -58,14 +57,6 @@ public class CompetitionController {
 			partNumber = 1;
 		model.addAttribute("user", service.getUserByLogin(userLogin));
 		model.addAttribute("startPartNumber", startPartNumber);
-		
-		for (AwardDTO a : service.getAllAwards()) log.info(a.getName() + " " + a.getIdAward());
-		UserCompetitionsDTO ff = service.getUserCompetition("8e93497d-61f0-4fd9-b535-b247f6d03fec", "volodya4u");
-		log.info(ff.getUserScore());
-		ff.setUserScore("200");
-		service.updateUserCompetition(ff);
-		UserCompetitionsDTO dd = service.getUserCompetition("8e93497d-61f0-4fd9-b535-b247f6d03fec", "volodya4u");
-		log.info(dd.getUserScore());
 
 		if ("admin".equals(service.getUserByLogin(userLogin).getRoleName())) {
 			int n = service.getAllCompetitions(1, Integer.MAX_VALUE).size();
@@ -121,15 +112,17 @@ public class CompetitionController {
 			String idCompetition) {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
-		service.addUserInCompetitionView(idCompetition, userLogin);
-		String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(userLogin).getGoogleApi());
-		Long startTime = CustomDateFormater
-				.getDateInMilliseconds(service.getCompetitionViewById(idCompetition).getStartDate());
-		String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
-		String stepCount = GoogleFitUtils.getStepCount(fitData);
-		UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
-		userCompetition.setUserScore(stepCount);
-		service.updateUserCompetition(userCompetition);
+		if (service.getUserCompetition(idCompetition, userLogin) == null) {
+			service.addUserInCompetitionView(idCompetition, userLogin);
+			String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(userLogin).getGoogleApi());
+			Long startTime = CustomDateFormater
+					.getDateInMilliseconds(service.getCompetitionViewById(idCompetition).getStartDate());
+			String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
+			String stepCount = GoogleFitUtils.getStepCount(fitData);
+			UserCompetitionsDTO userCompetition = service.getUserCompetition(idCompetition, userLogin);
+			userCompetition.setUserScore(stepCount);
+			service.updateUserCompetition(userCompetition);
+		}
 
 		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
 		int bronzeCount = 0;
