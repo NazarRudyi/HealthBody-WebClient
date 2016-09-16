@@ -123,28 +123,7 @@ public class CompetitionController {
 			userCompetition.setUserScore(stepCount);
 			service.updateUserCompetition(userCompetition);
 		}
-
-		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
-		int bronzeCount = 0;
-		int silverCount = 0;
-		int goldCount = 0;
-		for (CompetitionDTO competition : list) {
-			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(),
-					userLogin);
-			String award = userCompetitionsDTO.getIdAwards();
-			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
-				bronzeCount++;
-			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
-				silverCount++;
-			else if (AwardConstants.GOLD_MEDAL_ID.equals(award))
-				goldCount++;
-		}
-		model.addAttribute("bronze", bronzeCount);
-		model.addAttribute("silver", silverCount);
-		model.addAttribute("gold", goldCount);
-		model.addAttribute("user", service.getUserByLogin(userLogin));
-		model.addAttribute("usercompetitions", service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
-		return "userCabinet";
+		return "redirect:/userCabinet.html";
 	}
 
 	@RequestMapping(value = "/leaveCompetition.html", method = RequestMethod.GET)
@@ -153,29 +132,7 @@ public class CompetitionController {
 		String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 		service.deleteUserCompetition(idCompetition, userLogin);
-
-		List<CompetitionDTO> list = service.getAllCompetitionsByUser(1, Integer.MAX_VALUE, userLogin);
-		int bronzeCount = 0;
-		int silverCount = 0;
-		int goldCount = 0;
-		for (CompetitionDTO competition : list) {
-			UserCompetitionsDTO userCompetitionsDTO = service.getUserCompetition(competition.getIdCompetition(),
-					userLogin);
-			String award = userCompetitionsDTO.getIdAwards();
-			if (AwardConstants.BRONZE_MEDAL_ID.equals(award))
-				bronzeCount++;
-			else if (AwardConstants.SILVER_MEDAL_ID.equals(award))
-				silverCount++;
-			else if (AwardConstants.GOLD_MEDAL_ID.equals(award))
-				goldCount++;
-		}
-		model.addAttribute("bronze", bronzeCount);
-		model.addAttribute("silver", silverCount);
-		model.addAttribute("gold", goldCount);
-		model.addAttribute("user", service.getUserByLogin(userLogin));
-		model.addAttribute("usercompetitions", service.getAllActiveCompetitionsByUser(1, Integer.MAX_VALUE, userLogin));
-		model.addAttribute("getScore", service.getUserCompetition(idCompetition, userLogin));
-		return "userCabinet";
+		return "redirect:/userCabinet.html";
 	}
 
 	@RequestMapping(value = "/listOfGroups.html", method = RequestMethod.GET)
