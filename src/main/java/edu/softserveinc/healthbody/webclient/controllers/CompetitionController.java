@@ -257,7 +257,7 @@ public class CompetitionController {
 	}
 
 	@RequestMapping(value = "/recountAwards.html", method = RequestMethod.GET)
-	public String recountSteps(Model model, @Autowired HealthBodyServiceImplService healthBody) {
+	public String recountAwards(Model model, @Autowired HealthBodyServiceImplService healthBody) {
 		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
 
 		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
@@ -322,6 +322,40 @@ public class CompetitionController {
 						usercompetition.setTimeReceived(date.toString());
 						service.updateUserCompetition(usercompetition);
 					}
+				}
+			}
+		}
+		return "redirect:/listCompetitions.html";
+	}
+	
+	@RequestMapping(value = "/updateSteps.html", method = RequestMethod.GET)
+	public String updateSteps(Model model, @Autowired HealthBodyServiceImplService healthBody) {
+		HealthBodyService service = healthBody.getHealthBodyServiceImplPort();
+
+		List<GroupDTO> listgroups = service.getAllGroupsParticipants(1, Integer.MAX_VALUE);
+		for (GroupDTO groupdto : listgroups) {
+			log.info(groupdto.getName());
+			List<CompetitionDTO> listcompetitions = service.getAllCompetitionsByGroup(1, Integer.MAX_VALUE,
+					groupdto.getIdGroup());
+			if (listcompetitions.isEmpty())
+				continue;
+			for (CompetitionDTO competitionDTO : listcompetitions) {
+				log.info(competitionDTO.getName());
+				for (String login : groupdto.getUsers()) {
+					log.info(login);
+					UserCompetitionsDTO usercompetition = service.getUserCompetition(competitionDTO.getIdCompetition(),
+							login);
+					if (usercompetition == null)
+						continue;
+					
+					String gettedAccessToken = GoogleFitUtils.postForAccessToken(service.getUserByLogin(login).getGoogleApi());
+					Long startTime = CustomDateFormater
+							.getDateInMilliseconds(service.getCompetitionViewById(competitionDTO.getIdCompetition()).getStartDate());
+					String fitData = GoogleFitUtils.post(gettedAccessToken, startTime, System.currentTimeMillis());
+					String stepCount = GoogleFitUtils.getStepCount(fitData);
+					usercompetition.setUserScore(stepCount);
+					service.updateUserCompetition(usercompetition);
+					log.info(stepCount);
 				}
 			}
 		}
