@@ -285,7 +285,9 @@ public class CompetitionController {
 					userScore = userScore + Integer.parseInt(usercompetition.getUserScore());
 					log.info("User score " + userScore);
 				}
-				Integer averageScore = userScore / usersInGroup / days;
+				Integer averageScore;
+				if (days == 0) averageScore = 0;
+				else averageScore = userScore / usersInGroup / days;
 				log.info("Average score " + averageScore);
 
 				Date date = new Date(System.currentTimeMillis());
