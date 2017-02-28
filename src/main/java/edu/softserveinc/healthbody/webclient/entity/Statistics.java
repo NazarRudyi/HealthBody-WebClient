@@ -11,10 +11,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.*;
+
 @Entity
 @Table(name="statistics")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Statistics implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,39 +37,4 @@ public class Statistics implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date logoutDate;
 	
-	public Statistics() {
-		
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	public String getUserLogin() {
-		return userLogin;
-	}
-	
-	public void setUserLogin(String userLogin) {
-		this.userLogin = userLogin;
-	}
-	
-	public Date getLoginDate() {
-		return loginDate;
-	}
-	
-	public void setLoginDate(Date loginDate) {
-		this.loginDate = loginDate;
-	}
-	
-	public Date getLogoutDate() {
-		return logoutDate;
-	}
-		
-	public void setLogoutDate(Date logoutDate) {
-		this.logoutDate = logoutDate;
-	}
 }
